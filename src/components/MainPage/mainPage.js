@@ -42,18 +42,21 @@ const MainPageMovies = () => {
 
   return (
     <div className="mainPage">
-      {movieList &&
-        movieList.map((movie) => (
-          <MovieCard
-            key={movie?.id}
-            id={movie?.id}
-            poster={movie?.poster_path}
-            title={movie?.title || movie?.name}
-            date={movie?.first_air_date || movie?.release_date}
-            media_type={movie?.media_type}
-            vote_average={movie?.vote_average}
-          />
-        ))}
+      <span className="yearHeader">{year}</span>
+      <div className="movieList">
+        {movieList &&
+          movieList.map((movie) => (
+            <MovieCard
+              key={movie?.id}
+              id={movie?.id}
+              poster={movie?.poster_path}
+              title={movie?.title || movie?.name}
+              date={movie?.first_air_date || movie?.release_date}
+              media_type={movie?.media_type}
+              vote_average={movie?.vote_average}
+            />
+          ))}
+      </div>
     </div>
   );
 };

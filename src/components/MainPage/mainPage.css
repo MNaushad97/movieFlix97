@@ -1,8 +1,22 @@
 .mainPage {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
   position: absolute;
   background-color: #121212;
   margin-top: 160px;
+}
+.yearHeader {
+  display: flex;
+  align-items: flex-start;
+  margin-left: 16px;
+  margin-bottom: 25px;
+  font-weight: 700;
+  font-size: xx-large;
+  color: white;
+}
+
+.movieList {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }

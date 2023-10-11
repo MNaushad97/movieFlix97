@@ -28,9 +28,7 @@ const MovieCard = ({
         alt={title}
       />
       <b className="title">{title}</b>
-      <span className="releaseDate">
-        <span className="releaseDate">{formatDate(date)}</span>
-      </span>
+      <span className="releaseDate">{formatDate(date)}</span>
     </div>
   );
 };
