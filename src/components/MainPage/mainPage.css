@@ -1,0 +1,8 @@
+.mainPage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  position: absolute;
+  background-color: #121212;
+  margin-top: 160px;
+}

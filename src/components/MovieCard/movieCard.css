@@ -1,0 +1,44 @@
+.movieCard {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  padding: 5px;
+  margin: 5px 0;
+  border-radius: 10px;
+  position: relative;
+  font-family: "Montserrat", sans-serif;
+  color: white;
+}
+
+.movieCard:hover {
+  background-color: white;
+  color: black;
+  transform: scale(1.025);
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  transition-duration: 224ms;
+}
+
+@media (max-width: 550px) {
+  .movieCard {
+    width: 46%;
+  }
+}
+
+.poster {
+  border-radius: 10px;
+}
+
+.title {
+  width: 100%;
+  text-align: center;
+  font-size: 17px;
+  padding: 8px 0;
+}
+
+.releaseDate {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 3px;
+  padding: 0 2px;
+  padding-bottom: 3px;
+}
