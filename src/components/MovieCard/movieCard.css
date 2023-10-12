@@ -1,9 +1,9 @@
 .movieCard {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  /* width: 300px; */
   padding: 5px;
-  margin: 5px 0;
+  margin: 7px 0;
   border-radius: 10px;
   position: relative;
   font-family: "Montserrat", sans-serif;
@@ -35,7 +35,7 @@
   padding: 8px 0;
 }
 
-.releaseDate {
+.ratings {
   display: flex;
   justify-content: center;
   padding-bottom: 3px;

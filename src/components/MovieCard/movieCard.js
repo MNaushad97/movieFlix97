@@ -28,7 +28,7 @@ const MovieCard = ({
         alt={title}
       />
       <b className="title">{title}</b>
-      <span className="releaseDate">{formatDate(date)}</span>
+      <span className="ratings">{vote_average}</span>
     </div>
   );
 };

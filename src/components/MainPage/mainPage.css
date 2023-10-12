@@ -6,13 +6,12 @@
   margin-top: 160px;
 }
 .yearHeader {
-  display: flex;
-  align-items: flex-start;
-  margin-left: 16px;
-  margin-bottom: 25px;
+  align-self: center; /* Align text-child with the center of container2 */
   font-weight: 700;
   font-size: xx-large;
   color: white;
+  margin-left: 16px;
+  margin-bottom: 25px;
 }
 
 .movieList {
