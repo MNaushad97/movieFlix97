@@ -13,8 +13,8 @@ const MainPageMovies = () => {
   const [nextMovieList, setNextMovieList] = useState([]);
   const [nextYear, setNextYear] = useState();
 
-  const [isLoadingPrevData, setIsLoadingPrevData] = useState(false);
-  const [isLoadingNextData, setIsLoadingNextData] = useState(false);
+  const [prevDataLoaded, setIsPrevDataLoaded] = useState(false);
+  const [isNextDataLoaded, setIsNextDataLoaded] = useState(false);
   const endOfTheYearRef = useRef(null);
   const startOfTheYearRef = useRef(null);
 
@@ -43,17 +43,20 @@ const MainPageMovies = () => {
         console.log("added prev:", [data.results, ...prevMovieList]);
         setPrevMovieList((prev) => [data.results, ...prev]);
         setPrevYear(movieYear);
-        setIsLoadingPrevData(true);
-        setIsLoadingNextData(false);
+        setIsPrevDataLoaded(true);
+        setIsNextDataLoaded(false);
       } else if (type === "nextYear") {
         console.log("added next:", [...nextMovieList, data.results]);
         setNextMovieList((prev) => [...prev, data.results]);
         setNextYear(movieYear);
-        setIsLoadingNextData(true);
-        setIsLoadingPrevData(false);
+        setIsNextDataLoaded(true);
+        setIsPrevDataLoaded(false);
       } else if (type === "initialLoad") {
         console.log("added :", data.results);
-        setMovieList(data.results);
+        setNextMovieList([data.results]);
+        setNextYear(movieYear);
+        setIsNextDataLoaded(true);
+        setIsPrevDataLoaded(false);
       }
       //setMovieList(data.results);
       // setNumOfPages(data.total_pages);
@@ -67,6 +70,7 @@ const MainPageMovies = () => {
   }, [movieList]);
 
   const handleScrollDownIntersect = (entries) => {
+    console.log("entries:", entries);
     const entry = entries[0];
     if (entry.isIntersecting) {
       // Scrolled down, fetch data for the next year
@@ -75,28 +79,36 @@ const MainPageMovies = () => {
       fetchMovies(year + 1, "nextYear");
     }
   };
+  const handleScrollUpIntersect = (entries) => {
+    const entry = entries[0];
+    console.log("entry.isIntersecting:", entry.isIntersecting);
+    if (entry.isIntersecting) {
+      // Scrolled down, fetch data for the next year
+      console.log("Scrolled up for:", year - 1);
+      setYear(year - 1);
+      fetchMovies(year + 1, "prevYear");
+    }
+  };
+
   useEffect(() => {
-    // const sentinelRefCurrent = endOfTheYearRef.current;
-    // if (!sentinelRefCurrent) return;
     const movieCardsList = document.querySelectorAll(".movieCard");
+    const lastCardObserver = new IntersectionObserver(
+      handleScrollDownIntersect,
+      {
+        root: null,
+        rootMargin: "70%",
+        threshold: 0.1,
+      }
+    );
 
-    const observer = new IntersectionObserver(handleScrollDownIntersect, {
-      root: null,
-      rootMargin: "70%",
-      threshold: 0.5,
-    });
-
-    //observer.observe(sentinelRefCurrent);
     console.log("movieCardsList:", movieCardsList);
     if (movieCardsList.length > 0) {
       const lastMovieCard = movieCardsList[movieCardsList.length - 1];
-      // const firstMovieCard = movieCardsList[movieCardsList.length - 20];
-      // console.log("fiorst card:", firstMovieCard);
-      observer.observe(lastMovieCard);
+      lastCardObserver.observe(lastMovieCard);
     }
 
     return () => {
-      observer.disconnect();
+      lastCardObserver.disconnect();
     };
   }, [movieList, nextMovieList, prevMovieList]);
 
@@ -104,37 +116,10 @@ const MainPageMovies = () => {
     fetchMovies(year, "initialLoad");
   }, []);
 
-  // const handleScrollUpIntersect = (entries) => {
-  //   const entry = entries[0];
-  //   if (entry.isIntersecting && shouldLoadPreviousYearsMovies) {
-  //     // Scrolled up, fetch data for the prev year
-  //     console.log("Scrolled up for:", year - 1);
-  //     setYear(year - 1);
-  //     fetchMovies(year - 1, "prevYear");
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const sentinelRefCurr = startOfTheYearRef.current;
-  //   if (!sentinelRefCurr) return;
-
-  //   const observer = new IntersectionObserver(handleScrollUpIntersect, {
-  //     root: null,
-  //     rootMargin: "0px",
-  //     threshold: 0.5,
-  //   });
-
-  //   observer.observe(sentinelRefCurr);
-
-  //   return () => {
-  //     observer.disconnect();
-  //   };
-  // }, [shouldLoadPreviousYearsMovies]);
-
   return (
     <div className="mainPage">
       <div className="sentinel" ref={startOfTheYearRef}></div>
-      {isLoadingPrevData &&
+      {prevDataLoaded &&
         prevMovieList &&
         prevMovieList?.map((movieArray) => {
           return (
@@ -165,31 +150,7 @@ const MainPageMovies = () => {
             </div>
           );
         })}
-      <div className="movieWithYearBlock">
-        <span className="yearHeader">
-          {movieList[0]?.first_air_date?.split("-")[0] ||
-            movieList[0]?.release_date?.split("-")[0]}
-        </span>
-        <div className="movieList">
-          {movieList ? (
-            movieList.map((movie) => (
-              <MovieCard
-                key={movie?.id + movie?.title}
-                id={movie?.id}
-                poster={movie?.poster_path}
-                title={movie?.title || movie?.name}
-                date={movie?.first_air_date || movie?.release_date}
-                media_type={movie?.media_type}
-                vote_average={movie?.vote_average}
-                ref={endOfTheYearRef}
-              />
-            ))
-          ) : (
-            <div>No Movie Available</div>
-          )}
-        </div>
-      </div>
-      {isLoadingNextData &&
+      {isNextDataLoaded &&
         nextMovieList &&
         nextMovieList?.map((movieArray) => {
           return (
