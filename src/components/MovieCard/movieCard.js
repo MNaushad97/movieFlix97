@@ -27,7 +27,9 @@ const MovieCard = ({
         src={moviePoster ? `${img_300}${moviePoster}` : unavailable}
         alt={title}
       />
-      <b className="title">{title}</b>
+      <div className="title">
+        <b>{title}</b>
+      </div>
       <span className="ratings">{vote_average}</span>
     </div>
   );
