@@ -4,12 +4,19 @@
   position: absolute;
   background-color: #121212;
   /* background-color: white; */
-  margin-top: 160px;
+  margin-top: 6.5rem;
+  width: 100vw;
+  height: 100vh;
 }
-
+@media (max-width: 550px) {
+  .mainPage {
+    margin-top: 3.5rem;
+  }
+}
 .movieWithYearBlock {
   display: flex;
   flex-direction: column;
+  height: 100;
 }
 .yearHeader {
   align-self: start; /* Align text-child with the center of container2 */

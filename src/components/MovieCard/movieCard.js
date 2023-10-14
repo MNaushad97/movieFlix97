@@ -26,6 +26,7 @@ const MovieCard = forwardRef(
           <b>{title}</b>
         </div>
         <span className="ratings">{vote_average}</span>
+        <span className="ratings">{formatDate(date)}</span>
       </div>
     );
   }

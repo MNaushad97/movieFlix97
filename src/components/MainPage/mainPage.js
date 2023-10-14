@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import "./mainPage.css";
 import MovieCard from "../MovieCard/movieCard";
-import { List } from "react-virtualized";
+import {
+  List,
+  AutoSizer,
+  CellMeasurer,
+  CellMeasurerCache,
+} from "react-virtualized";
 
 import { useOnScreen } from "../../utils/hooks";
 const MainPageMovies = () => {
@@ -18,6 +23,12 @@ const MainPageMovies = () => {
   const [isNextDataLoaded, setIsNextDataLoaded] = useState(false);
   const endOfTheYearRef = useRef(null);
   const startOfTheYearRef = useRef(null);
+  const cache = useRef(
+    new CellMeasurerCache({
+      fixedWidth: true,
+      defaultHeight: 100,
+    })
+  );
 
   const shouldLoadPreviousYearsMovies = useOnScreen(startOfTheYearRef, {
     rootMargin: "500px",
@@ -97,12 +108,13 @@ const MainPageMovies = () => {
       handleScrollDownIntersect,
       {
         root: null,
-        rootMargin: "70%",
+        rootMargin: "100%",
         threshold: 0.1,
       }
     );
 
     console.log("movieCardsList:", movieCardsList);
+
     if (movieCardsList.length > 0) {
       const lastMovieCard = movieCardsList[movieCardsList.length - 1];
       lastCardObserver.observe(lastMovieCard);
@@ -117,53 +129,61 @@ const MainPageMovies = () => {
     fetchMovies(year, "initialLoad");
   }, []);
 
+  const renderMovieYearBlock = (movieArray, key, style) => {
+    return (
+      <div className="movieWithYearBlock">
+        <span className="yearHeader">
+          {movieArray &&
+            movieArray[0] &&
+            (movieArray[0]?.first_air_date?.split("-")[0] ||
+              movieArray[0]?.release_date?.split("-")[0])}
+        </span>
+        <div className="movieList">
+          {movieArray ? (
+            movieArray.map((movie) => (
+              <MovieCard
+                key={movie?.id + movie?.title}
+                id={movie?.id}
+                poster={movie?.poster_path}
+                title={movie?.title || movie?.name}
+                date={movie?.first_air_date || movie?.release_date}
+                media_type={movie?.media_type}
+                vote_average={movie?.vote_average}
+                ref={endOfTheYearRef}
+              />
+            ))
+          ) : (
+            <div>No Movie Available</div>
+          )}
+        </div>
+      </div>
+    );
+  };
   return (
     <div className="mainPage">
       {console.log("html nextMovieList:", nextMovieList)}
-      {isNextDataLoaded &&
-        nextMovieList &&
-        nextMovieList?.map((movieArray) => {
-          return (
-            <>
-              <div className="movieWithYearBlock">
-                <span className="yearHeader">
-                  {movieArray &&
-                    movieArray[0] &&
-                    (movieArray[0]?.first_air_date?.split("-")[0] ||
-                      movieArray[0]?.release_date?.split("-")[0])}
-                </span>
-                <div
-                  className="movieList"
-                  style={{ display: "flex", flexWrap: "wrap" }}
-                >
-                  <List
-                    width={800}
-                    height={800}
-                    rowHeight={200}
-                    rowCount={movieArray.length}
-                    rowRenderer={({ key, index, style, parent }) => {
-                      const movie = movieArray[index];
-                      return (
-                        <MovieCard
-                          //key={movie?.id + movie?.title}
-                          id={movie?.id}
-                          poster={movie?.poster_path}
-                          title={movie?.title || movie?.name}
-                          date={movie?.first_air_date || movie?.release_date}
-                          media_type={movie?.media_type}
-                          vote_average={movie?.vote_average}
-                          ref={endOfTheYearRef}
-                          key={key}
-                          style={style}
-                        />
-                      );
-                    }}
-                  />
-                </div>
-              </div>
-            </>
-          );
-        })}
+      {isNextDataLoaded && nextMovieList && (
+        <>
+          <div style={{ width: "100%", height: "150vh" }}>
+            {console.log("cache.current.rowHeight:", cache.current.rowHeight)}
+            <AutoSizer>
+              {({ width, height }) => (
+                <List
+                  width={width}
+                  height={height}
+                  rowHeight={10000000}
+                  deferredMeasurementCache={cache.current}
+                  rowCount={nextMovieList.length}
+                  rowRenderer={({ key, index, style, parent }) => {
+                    const movieArray = nextMovieList[index];
+                    return <>{renderMovieYearBlock(movieArray, key, style)}</>;
+                  }}
+                />
+              )}
+            </AutoSizer>
+          </div>
+        </>
+      )}
     </div>
   );
 };
