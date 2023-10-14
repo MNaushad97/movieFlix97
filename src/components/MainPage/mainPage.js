@@ -2,38 +2,47 @@ import { useEffect, useRef, useState } from "react";
 import "./mainPage.css";
 import MovieCard from "../MovieCard/movieCard";
 import {
-  List,
   AutoSizer,
-  CellMeasurer,
-  CellMeasurerCache,
+  InfiniteLoader,
+  List,
+  WindowScroller,
 } from "react-virtualized";
 
 import { useOnScreen } from "../../utils/hooks";
+
+const Row = ({ style, repository }) => (
+  <div
+    className="listItem"
+    style={style}
+    onClick={() => handleRedirectToRepository(repository.html_url)}
+  >
+    <span className="repositoryName">{repository.full_name}</span>
+    <span>
+      (
+      <span role="img" aria-label="star emoji">
+        ⭐
+      </span>
+      {repository.stargazers_count})
+    </span>
+  </div>
+);
+const handleRedirectToRepository = (repositoryUrl) => {
+  window.open(repositoryUrl, "_blank");
+};
+
 const MainPageMovies = () => {
-  const [movieList, setMovieList] = useState([]);
   const [year, setYear] = useState(2012); // Start from 2012
-
   const [prevMovieList, setPrevMovieList] = useState([]);
-  const [prevYear, setPrevYear] = useState();
-
   const [nextMovieList, setNextMovieList] = useState([]);
-  const [nextYear, setNextYear] = useState();
+
+  const [pageCount, setPageCount] = useState(1);
+  const [isNextPageLoading, setIsNextPageLoading] = useState(false);
 
   const [prevDataLoaded, setIsPrevDataLoaded] = useState(false);
   const [isNextDataLoaded, setIsNextDataLoaded] = useState(false);
   const endOfTheYearRef = useRef(null);
   const startOfTheYearRef = useRef(null);
-  const cache = useRef(
-    new CellMeasurerCache({
-      fixedWidth: true,
-      defaultHeight: 100,
-    })
-  );
 
-  const shouldLoadPreviousYearsMovies = useOnScreen(startOfTheYearRef, {
-    rootMargin: "500px",
-    threshold: 0.1,
-  });
   const fetchMovies = async (movieYear, type) => {
     //react app needs to be restarted whenever we change something in .env file
     console.log("year:", movieYear);
@@ -54,21 +63,24 @@ const MainPageMovies = () => {
       if (type === "prevYear") {
         console.log("added prev:", [data.results, ...prevMovieList]);
         setPrevMovieList((prev) => [data.results, ...prev]);
-        setPrevYear(movieYear);
         setIsPrevDataLoaded(true);
         setIsNextDataLoaded(false);
       } else if (type === "nextYear") {
         console.log("added next:", [...nextMovieList, data.results]);
+        setPageCount((pageCount) => pageCount + 1);
         setNextMovieList((prev) => [...prev, data.results]);
-        setNextYear(movieYear);
         setIsNextDataLoaded(true);
         setIsPrevDataLoaded(false);
+        setYear(movieYear);
+        setIsNextPageLoading(false);
       } else if (type === "initialLoad") {
         console.log("added :", data.results);
+
+        setPageCount((pageCount) => pageCount + 1);
         setNextMovieList([data.results]);
-        setNextYear(movieYear);
         setIsNextDataLoaded(true);
         setIsPrevDataLoaded(false);
+        setYear(movieYear);
       }
       //setMovieList(data.results);
       // setNumOfPages(data.total_pages);
@@ -77,57 +89,66 @@ const MainPageMovies = () => {
       // Handling the error
     }
   };
-  useEffect(() => {
-    console.log("MovieList", movieList);
-  }, [movieList]);
-
-  const handleScrollDownIntersect = (entries) => {
-    console.log("entries:", entries);
-    const entry = entries[0];
-    if (entry.isIntersecting) {
-      // Scrolled down, fetch data for the next year
-      console.log("Scrolled down for:", year + 1);
-      setYear(year + 1);
-      fetchMovies(year + 1, "nextYear");
-    }
-  };
-  const handleScrollUpIntersect = (entries) => {
-    const entry = entries[0];
-    console.log("entry.isIntersecting:", entry.isIntersecting);
-    if (entry.isIntersecting) {
-      // Scrolled down, fetch data for the next year
-      console.log("Scrolled up for:", year - 1);
-      setYear(year - 1);
-      fetchMovies(year + 1, "prevYear");
-    }
-  };
-
-  useEffect(() => {
-    const movieCardsList = document.querySelectorAll(".movieCard");
-    const lastCardObserver = new IntersectionObserver(
-      handleScrollDownIntersect,
-      {
-        root: null,
-        rootMargin: "100%",
-        threshold: 0.1,
-      }
-    );
-
-    console.log("movieCardsList:", movieCardsList);
-
-    if (movieCardsList.length > 0) {
-      const lastMovieCard = movieCardsList[movieCardsList.length - 1];
-      lastCardObserver.observe(lastMovieCard);
-    }
-
-    return () => {
-      lastCardObserver.disconnect();
-    };
-  }, [movieList, nextMovieList, prevMovieList]);
 
   useEffect(() => {
     fetchMovies(year, "initialLoad");
   }, []);
+
+  const rowRenderer = ({
+    key, // Unique key within array of rows
+    index, // Index of row within collection
+    style, // Style object to be applied to row (to position it)
+    movieArray,
+  }) => {
+    return (
+      <Row
+        key={key}
+        index={index}
+        style={style}
+        repository={movieArray?.[index]}
+      />
+    );
+  };
+
+  function isRowLoaded({ index }) {
+    return !!nextMovieList?.[index];
+  }
+
+  const handleNewPageLoad = async () => {
+    setIsNextPageLoading(true);
+    fetchMovies(year + 1, "nextYear");
+    return;
+  };
+  useEffect(() => {
+    console.log("nextMovieList:", nextMovieList);
+  }, [nextMovieList]);
+  const loadMoreRows = isNextPageLoading ? () => {} : handleNewPageLoad;
+  // let item = {};
+  // let requestCache = {};
+  // const LoadMoreItems = (visibleStartIndex, visibleStopIndex) => {
+  //   const key = [visibleStartIndex, visibleStopIndex].join(":"); // 0:10
+  //   if (requestCache[key]) {
+  //     return;
+  //   }
+  //   const length = visibleStopIndex - visibleStartIndex;
+  //   const visibleRange = [...Array(length).keys()].map(
+  //     (x) => x + visibleStartIndex
+  //   );
+  //   const itemsRetrieved = visibleRange.every((index) => !!items[index]);
+  //   if (itemsRetrieved) {
+  //     requestCache[key] = key;
+  //   }
+  //   return fetch(getUrl(length, visibleStartIndex))
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       data.records.forEach((city, index) => {
+  //         items[index + visibleStartIndex] = city.fields;
+  //       });
+  //     })
+  //     .catch((error) => console.error("Error:", error));
+  // };
+
+  if (!nextMovieList?.length) return <span>Loading initial repositories</span>;
 
   const renderMovieYearBlock = (movieArray, key, style) => {
     return (
@@ -135,12 +156,12 @@ const MainPageMovies = () => {
         <span className="yearHeader">
           {movieArray &&
             movieArray[0] &&
-            (movieArray[0]?.first_air_date?.split("-")[0] ||
-              movieArray[0]?.release_date?.split("-")[0])}
+            (movieArray?.[0]?.first_air_date?.split("-")[0] ||
+              movieArray?.[0]?.release_date?.split("-")[0])}
         </span>
         <div className="movieList">
           {movieArray ? (
-            movieArray.map((movie) => (
+            movieArray?.map((movie) => (
               <MovieCard
                 key={movie?.id + movie?.title}
                 id={movie?.id}
@@ -162,28 +183,42 @@ const MainPageMovies = () => {
   return (
     <div className="mainPage">
       {console.log("html nextMovieList:", nextMovieList)}
-      {isNextDataLoaded && nextMovieList && (
-        <>
-          <div style={{ width: "100%", height: "150vh" }}>
-            {console.log("cache.current.rowHeight:", cache.current.rowHeight)}
-            <AutoSizer>
-              {({ width, height }) => (
-                <List
-                  width={width}
-                  height={height}
-                  rowHeight={10000000}
-                  deferredMeasurementCache={cache.current}
-                  rowCount={nextMovieList.length}
-                  rowRenderer={({ key, index, style, parent }) => {
-                    const movieArray = nextMovieList[index];
-                    return <>{renderMovieYearBlock(movieArray, key, style)}</>;
-                  }}
-                />
-              )}
-            </AutoSizer>
-          </div>
-        </>
-      )}
+
+      <AutoSizer disableHeight={true}>
+        {({ width }) => (
+          <WindowScroller>
+            {({ height, isScrolling, onChildScroll, scrollTop }) => (
+              <InfiniteLoader
+                isRowLoaded={isRowLoaded}
+                loadMoreRows={loadMoreRows}
+                rowCount={1000}
+              >
+                {({ onRowsRendered, registerChild }) => (
+                  <List
+                    autoHeight
+                    onRowsRendered={onRowsRendered}
+                    ref={registerChild}
+                    height={height}
+                    isScrolling={isScrolling}
+                    onScroll={onChildScroll}
+                    rowCount={nextMovieList?.length}
+                    rowHeight={3000}
+                    rowRenderer={({ key, index, style, parent }) => {
+                      const movieArray = nextMovieList?.[index];
+                      return (
+                        <>{renderMovieYearBlock(movieArray, key, style)}</>
+                      );
+                    }}
+                    scrollTop={scrollTop}
+                    width={width}
+                  />
+                )}
+              </InfiniteLoader>
+            )}
+          </WindowScroller>
+        )}
+      </AutoSizer>
+      {isNextPageLoading && <span>loading more repositories..</span>}
     </div>
   );
 };
