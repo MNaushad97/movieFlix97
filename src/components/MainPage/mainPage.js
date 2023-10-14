@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./mainPage.css";
 import MovieCard from "../MovieCard/movieCard";
+import { List } from "react-virtualized";
 
 import { useOnScreen } from "../../utils/hooks";
 const MainPageMovies = () => {
@@ -118,7 +119,51 @@ const MainPageMovies = () => {
 
   return (
     <div className="mainPage">
-      <div className="sentinel" ref={startOfTheYearRef}></div>
+      {console.log("html nextMovieList:", nextMovieList)}
+      {isNextDataLoaded &&
+        nextMovieList &&
+        nextMovieList?.map((movieArray) => {
+          return (
+            <>
+              <div className="movieWithYearBlock">
+                <span className="yearHeader">
+                  {movieArray &&
+                    movieArray[0] &&
+                    (movieArray[0]?.first_air_date?.split("-")[0] ||
+                      movieArray[0]?.release_date?.split("-")[0])}
+                </span>
+                <div
+                  className="movieList"
+                  style={{ display: "flex", flexWrap: "wrap" }}
+                >
+                  <List
+                    width={800}
+                    height={800}
+                    rowHeight={200}
+                    rowCount={movieArray.length}
+                    rowRenderer={({ key, index, style, parent }) => {
+                      const movie = movieArray[index];
+                      return (
+                        <MovieCard
+                          //key={movie?.id + movie?.title}
+                          id={movie?.id}
+                          poster={movie?.poster_path}
+                          title={movie?.title || movie?.name}
+                          date={movie?.first_air_date || movie?.release_date}
+                          media_type={movie?.media_type}
+                          vote_average={movie?.vote_average}
+                          ref={endOfTheYearRef}
+                          key={key}
+                          style={style}
+                        />
+                      );
+                    }}
+                  />
+                </div>
+              </div>
+            </>
+          );
+        })}
     </div>
   );
 };
