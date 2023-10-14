@@ -121,9 +121,9 @@ const MainPageMovies = () => {
       <div className="sentinel" ref={startOfTheYearRef}></div>
       {prevDataLoaded &&
         prevMovieList &&
-        prevMovieList?.map((movieArray) => {
+        prevMovieList?.map((movieArray, key) => {
           return (
-            <div className="movieWithYearBlock">
+            <div className="movieWithYearBlock" key={key}>
               <span className="yearHeader">
                 {movieArray &&
                   movieArray[0] &&
@@ -152,9 +152,9 @@ const MainPageMovies = () => {
         })}
       {isNextDataLoaded &&
         nextMovieList &&
-        nextMovieList?.map((movieArray) => {
+        nextMovieList?.map((movieArray, key) => {
           return (
-            <div className="movieWithYearBlock">
+            <div className="movieWithYearBlock" key={key}>
               <span className="yearHeader">
                 {movieArray &&
                   movieArray[0] &&
