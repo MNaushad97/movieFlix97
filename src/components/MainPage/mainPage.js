@@ -119,69 +119,6 @@ const MainPageMovies = () => {
   return (
     <div className="mainPage">
       <div className="sentinel" ref={startOfTheYearRef}></div>
-      {prevDataLoaded &&
-        prevMovieList &&
-        prevMovieList?.map((movieArray) => {
-          return (
-            <div className="movieWithYearBlock">
-              <span className="yearHeader">
-                {movieArray &&
-                  movieArray[0] &&
-                  (movieArray[0]?.first_air_date?.split("-")[0] ||
-                    movieArray[0]?.release_date?.split("-")[0])}
-              </span>
-              <div className="movieList">
-                {movieArray ? (
-                  movieArray.map((movie) => (
-                    <MovieCard
-                      key={movie?.id + movie?.title}
-                      id={movie?.id}
-                      poster={movie?.poster_path}
-                      title={movie?.title || movie?.name}
-                      date={movie?.first_air_date || movie?.release_date}
-                      media_type={movie?.media_type}
-                      vote_average={movie?.vote_average}
-                    />
-                  ))
-                ) : (
-                  <div>No Movie Available</div>
-                )}
-              </div>
-            </div>
-          );
-        })}
-      {isNextDataLoaded &&
-        nextMovieList &&
-        nextMovieList?.map((movieArray) => {
-          return (
-            <div className="movieWithYearBlock">
-              <span className="yearHeader">
-                {movieArray &&
-                  movieArray[0] &&
-                  (movieArray[0]?.first_air_date?.split("-")[0] ||
-                    movieArray[0]?.release_date?.split("-")[0])}
-              </span>
-              <div className="movieList">
-                {movieArray ? (
-                  movieArray.map((movie) => (
-                    <MovieCard
-                      key={movie?.id + movie?.title}
-                      id={movie?.id}
-                      poster={movie?.poster_path}
-                      title={movie?.title || movie?.name}
-                      date={movie?.first_air_date || movie?.release_date}
-                      media_type={movie?.media_type}
-                      vote_average={movie?.vote_average}
-                      ref={endOfTheYearRef}
-                    />
-                  ))
-                ) : (
-                  <div>No Movie Available</div>
-                )}
-              </div>
-            </div>
-          );
-        })}
     </div>
   );
 };
