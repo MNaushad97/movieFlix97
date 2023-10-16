@@ -4,55 +4,84 @@ import MovieCard from "../MovieCard/movieCard";
 import { Virtuoso } from "react-virtuoso";
 
 const MainPageMovies = () => {
+  const START_INDEX = 10000; // index number assigned to "first user"
+  const INITIAL_ITEM_COUNT = 10; //size of array --->total 10 users 0-9 only | 10009 will be "last user"
+  const generated = [];
+
   const [year, setYear] = useState(2011); // Start from 2012
+  const [prevYear, setPrevYear] = useState(2011); // Start from 2012
+
   const [prevMovieList, setPrevMovieList] = useState([]);
   const [nextMovieList, setNextMovieList] = useState([]);
 
-  const [isNextPageLoading, setIsNextPageLoading] = useState(false);
+  const [firstItemIndex, setFirstItemIndex] = useState(0);
 
   const endOfTheYearRef = useRef(null);
 
-  const fetchMovies = useCallback(
-    async (movieYear, type) => {
-      //react app needs to be restarted whenever we change something in .env file
-      console.log("movieYear:", movieYear);
-      try {
-        const response = await fetch(
-          `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&sort_by=popularity.desc&primary_release_year=${movieYear}&page=1&vote_count.gte=100`
+  const fetchMovies = async (movieYear, type, index) => {
+    //react app needs to be restarted whenever we change something in .env file
+    console.log("movieYear:", movieYear);
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&sort_by=popularity.desc&primary_release_year=${movieYear}&page=1&vote_count.gte=100`
+      );
+      if (!response.ok) {
+        throw new Error(
+          `Network response was not ok: ${response.status} - ${response.statusText}`
         );
-        if (!response.ok) {
-          throw new Error(
-            `Network response was not ok: ${response.status} - ${response.statusText}`
-          );
-        }
-
-        const data = await response.json();
-
-        console.log("data:", data);
-
-        if (type === "prevYear") {
-          console.log("added prev:", [data.results, ...prevMovieList]);
-          setPrevMovieList((prev) => [data.results, ...prev]);
-        } else if (type === "nextYear") {
-          console.log("added next:", [...nextMovieList, data.results]);
-          setNextMovieList((prev) => [...prev, data.results]);
-          setYear(movieYear);
-        } else if (type === "initialLoad") {
-          console.log("added :", data.results);
-
-          setNextMovieList([data.results]);
-          setYear(movieYear + 1);
-        }
-        //setMovieList(data.results);
-        // setNumOfPages(data.total_pages);
-      } catch (error) {
-        console.error(error);
-        // Handling the error
       }
-    },
-    [nextMovieList, prevMovieList]
-  );
 
+      const data = await response.json();
+
+      console.log("data:", data);
+
+      if (type === "prevYear") {
+        const a = data.results;
+        console.log("added prev:", movieYear, "-->", a);
+        //setPrevMovieList([data.results]);
+        setPrevYear(movieYear);
+        return data?.results;
+      } else if (type === "nextYear") {
+        console.log("added next:", [...nextMovieList, data.results]);
+        setNextMovieList((prev) => [...prev, data.results]);
+        setYear(movieYear);
+      } else if (type === "initialLoad") {
+        console.log("added :", data.results);
+
+        setNextMovieList([data?.results]);
+        setYear(movieYear + 1);
+      }
+      //setMovieList(data.results);
+      // setNumOfPages(data.total_pages);
+    } catch (error) {
+      console.error(error);
+      // Handling the error
+    }
+  };
+
+  const getMovies = async (index, i) => {
+    if (!generated[index]) {
+      generated[index] = fetchMovies(prevYear - i, "prevYear", index);
+    }
+    console.log("generated[index]:", generated[index]);
+    return await generated[index];
+  };
+
+  function generateMovies(length, startIndex = 0) {
+    return Array.from({ length }).map((_, i) => getMovies(i + startIndex, i));
+    /*
+  The first parameter (represented by _) is a placeholder for the current element in the array.
+   Since we're not interested in the values of the array elements (they are all undefined),
+    we use _ as a conventional way to indicate that we're not using this parameter.
+
+i: The second parameter (represented by i) is the index of the current element in the array. 
+It represents the position of the element in the array.
+
+as fisrt element is at 10000 and usersToPrepend =2
+which means 9998 will be our new first ele and it will be till 9999 as added (0-1)
+  
+  */
+  }
   useEffect(() => {
     console.log("year:", year);
     if (year === 2011 && !nextMovieList.length) {
@@ -66,6 +95,23 @@ const MainPageMovies = () => {
     console.log("loadYear:", year + 1);
     fetchMovies(year + 1, "nextYear");
   }, [fetchMovies]);
+
+  const prependItems = useCallback(() => {
+    const movieListToPrepend = 2;
+    const nextFirstItemIndex = firstItemIndex - movieListToPrepend;
+    // Fetch and prepend movies for the previous year
+    // Update the firstItemIndex to reflect the change in data structure
+
+    setTimeout(() => {
+      setFirstItemIndex(() => nextFirstItemIndex);
+      setNextMovieList(() => [
+        ...generateMovies(movieListToPrepend, nextFirstItemIndex),
+        ...nextMovieList,
+      ]);
+    }, 500);
+
+    return false;
+  }, [firstItemIndex, setFirstItemIndex, fetchMovies]);
 
   useEffect(() => {
     console.log("nextMovieList:", nextMovieList);
@@ -82,7 +128,7 @@ const MainPageMovies = () => {
               movieArray?.[0]?.release_date?.split("-")[0])}
         </span>
         <div className="movieList">
-          {movieArray ? (
+          {Array.isArray(movieArray) ? (
             movieArray?.map((movie) => (
               <MovieCard
                 key={movie?.id + movie?.title}
@@ -96,7 +142,7 @@ const MainPageMovies = () => {
               />
             ))
           ) : (
-            <div>No Movie Available</div>
+            <div className="movieCard">No Movie Available</div>
           )}
         </div>
       </div>
@@ -109,6 +155,8 @@ const MainPageMovies = () => {
         style={{ height: "100vh" }}
         data={nextMovieList}
         endReached={loadMore}
+        firstItemIndex={firstItemIndex}
+        startReached={prependItems}
         initialTopMostItemIndex={1}
         itemContent={(index, movieArray) => {
           console.log("movieArray:", movieArray, index);
