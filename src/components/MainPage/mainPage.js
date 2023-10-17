@@ -14,7 +14,7 @@ const MainPageMovies = ({ selectedGenres }) => {
   const [prevMovieList, setPrevMovieList] = useState([]);
   const [nextMovieList, setNextMovieList] = useState([]);
 
-  const [firstItemIndex, setFirstItemIndex] = useState(0);
+  const [firstItemIndex, setFirstItemIndex] = useState(START_INDEX);
 
   const endOfTheYearRef = useRef(null);
 

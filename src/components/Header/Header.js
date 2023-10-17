@@ -10,9 +10,7 @@ const Header = ({
 }) => {
   return (
     <div className="headerWithGenre">
-      <div onClick={""} className="header">
-        MovieFlix97{" "}
-      </div>
+      <div className="header">MovieFlix97 </div>
       <div className="genreList">
         <Genres
           type="movie"
