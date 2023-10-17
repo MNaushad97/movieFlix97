@@ -4,24 +4,17 @@ import Genres from "./components/Genre/Genre";
 import Header from "./components/Header/Header";
 import MainPageMovies from "./components/MainPage/mainPage";
 function App() {
-  const [dataFetchedByGenre, setDataFetchedByGenre] = useState([]);
+  const [selectedGenres, setSelectedGenres] = useState([]);
   const [page, setPage] = useState(1);
-  const [isGenreActive, setIsGenreActive] = useState(false);
 
-  useEffect(() => {
-    console.log("isGenreActive:", isGenreActive);
-  }, [isGenreActive]);
   return (
     <div className="App">
       <Header
-        setIsGenreActive={setIsGenreActive}
-        setDataFetchedByGenre={setDataFetchedByGenre}
+        selectedGenres={selectedGenres}
+        setSelectedGenres={setSelectedGenres}
       />
 
-      <MainPageMovies
-        isGenreActive={isGenreActive}
-        dataFetchedByGenre={dataFetchedByGenre}
-      />
+      <MainPageMovies selectedGenres={selectedGenres} />
     </div>
   );
 }

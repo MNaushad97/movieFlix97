@@ -3,12 +3,8 @@ import "./mainPage.css";
 import MovieCard from "../MovieCard/movieCard";
 import { Virtuoso } from "react-virtuoso";
 
-const MainPageMovies = ({ isGenreActive, dataFetchedByGenre }) => {
-  console.log("dataFetchedByGenre:", dataFetchedByGenre);
-  const START_INDEX = 10000; // index number assigned to "first user"
-  const INITIAL_ITEM_COUNT = 10; //size of array --->total 10 users 0-9 only | 10009 will be "last user"
+const MainPageMovies = ({ selectedGenres }) => {
   const generated = [];
-
   const [year, setYear] = useState(2011); // Start from 2012
   const [prevYear, setPrevYear] = useState(2011); // Start from 2012
 
@@ -18,6 +14,15 @@ const MainPageMovies = ({ isGenreActive, dataFetchedByGenre }) => {
   const [firstItemIndex, setFirstItemIndex] = useState(0);
 
   const endOfTheYearRef = useRef(null);
+
+  const START_INDEX = 10000; // index number assigned to "first user"
+  const INITIAL_ITEM_COUNT = 10; //size of array --->total 10 users 0-9 only | 10009 will be "last user"
+
+  const [dataFetchedByGenre, setDataFetchedByGenre] = useState([]);
+
+  const [isGenreActive, setIsGenreActive] = useState(false);
+  //const [page, setPage] = useState(1);
+  let pageRef = useRef(1);
 
   const fetchMovies = async (movieYear, type, index) => {
     //react app needs to be restarted whenever we change something in .env file
@@ -31,34 +36,89 @@ const MainPageMovies = ({ isGenreActive, dataFetchedByGenre }) => {
           `Network response was not ok: ${response.status} - ${response.statusText}`
         );
       }
-
       const data = await response.json();
-
       console.log("data:", data);
 
       if (type === "prevYear") {
         const a = data.results;
         console.log("added prev:", movieYear, "-->", a);
-        //setPrevMovieList([data.results]);
         setPrevYear(movieYear);
         return data?.results;
       } else if (type === "nextYear") {
-        console.log("added next:", [...nextMovieList, data.results]);
         setNextMovieList((prev) => [...prev, data.results]);
         setYear(movieYear);
       } else if (type === "initialLoad") {
-        console.log("added :", data.results);
-
         setNextMovieList([data?.results]);
         setYear(movieYear + 1);
       }
-      //setMovieList(data.results);
-      // setNumOfPages(data.total_pages);
     } catch (error) {
       console.error(error);
       // Handling the error
     }
   };
+  const fetchMoviesByGenre = useCallback(
+    async (listOfGenres, type, pageNumber) => {
+      console.log(
+        type,
+        "fetchMoviesByGenre:",
+        "\n pageNumber:",
+        pageNumber,
+        listOfGenres
+      );
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${pageNumber}&with_genres=${listOfGenres}`
+        );
+        if (!response.ok) {
+          throw new Error(
+            `Network response was not ok: ${response.status} - ${response.statusText}`
+          );
+        }
+
+        const data = await response.json();
+
+        console.log(type, "\n \n fetchMoviesByGenre response:", data);
+        if (type === "initialGenreLoad") {
+          console.log(type, "i am in");
+
+          setDataFetchedByGenre([data?.results]);
+          pageRef.current = pageNumber;
+        } else if (type === "loadMoreGenreMovies") {
+          console.log(type, "i am in");
+          setDataFetchedByGenre((prev) => [...prev, data?.results]);
+          pageRef.current = pageNumber;
+
+          //setPage((page) => page + 1);
+        }
+      } catch (error) {
+        console.error(error);
+        // Handling the error
+      } finally {
+      }
+    },
+    []
+  );
+
+  useEffect(() => {
+    console.log("selectedGenres:", selectedGenres);
+    if (selectedGenres.length > 0) {
+      setDataFetchedByGenre([]);
+      setIsGenreActive(true);
+      pageRef.current = 1;
+
+      //setPage(1);
+      const result = selectedGenres.join(",");
+      console.log("response", result);
+      setTimeout(() => {
+        fetchMoviesByGenre(result, "initialGenreLoad", 1);
+      }, 500);
+    } else {
+      pageRef.current = 1;
+
+      //setPage(1);
+      setIsGenreActive(false);
+    }
+  }, [fetchMoviesByGenre, selectedGenres]);
 
   const getMovies = async (index, i) => {
     if (!generated[index]) {
@@ -96,6 +156,13 @@ which means 9998 will be our new first ele and it will be till 9999 as added (0-
     console.log("loadYear:", year + 1);
     fetchMovies(year + 1, "nextYear");
   }, [fetchMovies]);
+
+  const loadMoreGenreMovies = useCallback(() => {
+    const result = selectedGenres.join(",");
+
+    console.log("loadMoreGenreMovies selectedGenres:", selectedGenres, result);
+    fetchMoviesByGenre(result, "loadMoreGenreMovies", pageRef.current + 1);
+  }, [fetchMoviesByGenre, selectedGenres]);
 
   const prependItems = useCallback(() => {
     const movieListToPrepend = 2;
@@ -178,18 +245,21 @@ which means 9998 will be our new first ele and it will be till 9999 as added (0-
       </div>
     );
   };
-
+  useEffect(() => {
+    console.log("dataFetchedByGenre:", dataFetchedByGenre);
+  }, [dataFetchedByGenre]);
   return (
     <div className="mainPage">
       {isGenreActive && dataFetchedByGenre.length > 0 && (
         <Virtuoso
           style={{ height: "100vh" }}
           data={dataFetchedByGenre}
-          //endReached={loadMore}
-          overscan={200}
-          itemContent={(index, dataFetchedByGenre) => {
-            console.log("dataFetchedByGenre:", dataFetchedByGenre, index);
-            return renderGenreMovie(dataFetchedByGenre, index);
+          endReached={loadMoreGenreMovies}
+          // firstItemIndex={0}
+          // overscan={200}
+          itemContent={(index, movieArray) => {
+            // console.log("dataFetchedByGenre:", movieArray, index);
+            return renderGenreMovie(movieArray, index);
           }}
         />
       )}

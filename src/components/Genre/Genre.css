@@ -13,6 +13,12 @@
   user-select: none; /* Standard syntax */
 }
 
+.genreTag:hover {
+  background-color: #676666;
+}
 .selected {
   background-color: #f0283c;
+}
+.selected:hover {
+  background-color: #fc3b4f;
 }

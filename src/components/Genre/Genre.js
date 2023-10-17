@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 
 import "./Genre.css";
 const Genres = ({
-  // selectedGenres,
-  // setSelectedGenres,
+  selectedGenres,
+  setSelectedGenres,
   //   genres,
   //   setGenres,
   type,
@@ -12,8 +12,6 @@ const Genres = ({
   // setPage,
 }) => {
   const [genres, setGenres] = useState([]);
-  const [selectedGenres, setSelectedGenres] = useState([]);
-  const [page, setPage] = useState(1);
 
   const handleAdd = (genre) => {
     // setSelectedGenres([...selectedGenres, genre]);
@@ -37,35 +35,6 @@ const Genres = ({
       }
     }
   };
-  const fetchMoviesByGenre = async (listOfGenres) => {
-    console.log("listOfGenres:", listOfGenres);
-    try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${listOfGenres}`
-      );
-      if (!response.ok) {
-        throw new Error(
-          `Network response was not ok: ${response.status} - ${response.statusText}`
-        );
-      }
-
-      const data = await response.json();
-
-      console.log("response:", data?.results);
-      setDataFetchedByGenre([data?.results]);
-    } catch {}
-  };
-  useEffect(() => {
-    console.log("selectedGenres:", selectedGenres);
-    if (selectedGenres.length > 0) {
-      setIsGenreActive(true);
-      const result = selectedGenres.join(",");
-      console.log("response", result);
-      fetchMoviesByGenre(result);
-    } else {
-      setIsGenreActive(false);
-    }
-  }, [selectedGenres]);
 
   const fetchGenres = async () => {
     try {

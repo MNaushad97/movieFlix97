@@ -3,7 +3,11 @@ import "./Header.css";
 
 import { useState } from "react";
 
-const Header = ({ setIsGenreActive, setDataFetchedByGenre }) => {
+const Header = ({
+  setDataFetchedByGenre,
+  selectedGenres,
+  setSelectedGenres,
+}) => {
   return (
     <div className="headerWithGenre">
       <div onClick={""} className="header">
@@ -12,8 +16,9 @@ const Header = ({ setIsGenreActive, setDataFetchedByGenre }) => {
       <div className="genreList">
         <Genres
           type="movie"
-          setIsGenreActive={setIsGenreActive}
           setDataFetchedByGenre={setDataFetchedByGenre}
+          selectedGenres={selectedGenres}
+          setSelectedGenres={setSelectedGenres}
         />
       </div>
     </div>
