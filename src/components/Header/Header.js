@@ -1,10 +1,23 @@
+import Genres from "../Genre/Genre";
 import "./Header.css";
 
-const Header = () => {
+import useGenre from "../../utils/Hooks/useGenre";
+import { useState } from "react";
+
+const Header = ({ setIsGenreActive, setDataFetchedByGenre }) => {
   return (
-    <span onClick={""} className="header">
-      MovieFlix97{" "}
-    </span>
+    <div className="headerWithGenre">
+      <div onClick={""} className="header">
+        MovieFlix97{" "}
+      </div>
+      <div className="genreList">
+        <Genres
+          type="movie"
+          setIsGenreActive={setIsGenreActive}
+          setDataFetchedByGenre={setDataFetchedByGenre}
+        />
+      </div>
+    </div>
   );
 };
 

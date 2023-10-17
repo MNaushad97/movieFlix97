@@ -3,7 +3,8 @@ import "./mainPage.css";
 import MovieCard from "../MovieCard/movieCard";
 import { Virtuoso } from "react-virtuoso";
 
-const MainPageMovies = () => {
+const MainPageMovies = ({ isGenreActive, dataFetchedByGenre }) => {
+  console.log("dataFetchedByGenre:", dataFetchedByGenre);
   const START_INDEX = 10000; // index number assigned to "first user"
   const INITIAL_ITEM_COUNT = 10; //size of array --->total 10 users 0-9 only | 10009 will be "last user"
   const generated = [];
@@ -149,20 +150,63 @@ which means 9998 will be our new first ele and it will be till 9999 as added (0-
     );
   };
 
+  const renderGenreMovie = (movieArray, index, style) => {
+    console.log("movieArray:", movieArray);
+    return (
+      <div className="movieWithYearBlock" key={index}>
+        {/* <span className="yearHeader">
+          {movieArray &&
+            movieArray[0] &&
+            (movieArray?.[0]?.first_air_date?.split("-")[0] ||
+              movieArray?.[0]?.release_date?.split("-")[0])}
+        </span> */}
+        <div className="movieList">
+          {Array.isArray(movieArray) &&
+            movieArray?.map((movie) => (
+              <MovieCard
+                key={movie?.id + movie?.title}
+                id={movie?.id}
+                poster={movie?.poster_path}
+                title={movie?.title || movie?.name}
+                date={movie?.first_air_date || movie?.release_date}
+                media_type={movie?.media_type}
+                vote_average={movie?.vote_average}
+                ref={endOfTheYearRef}
+              />
+            ))}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="mainPage">
-      <Virtuoso
-        style={{ height: "100vh" }}
-        data={nextMovieList}
-        endReached={loadMore}
-        firstItemIndex={firstItemIndex}
-        startReached={prependItems}
-        initialTopMostItemIndex={1}
-        itemContent={(index, movieArray) => {
-          console.log("movieArray:", movieArray, index);
-          return renderMovieYearBlock(movieArray, index);
-        }}
-      />
+      {isGenreActive && dataFetchedByGenre.length > 0 && (
+        <Virtuoso
+          style={{ height: "100vh" }}
+          data={dataFetchedByGenre}
+          //endReached={loadMore}
+          overscan={200}
+          itemContent={(index, dataFetchedByGenre) => {
+            console.log("dataFetchedByGenre:", dataFetchedByGenre, index);
+            return renderGenreMovie(dataFetchedByGenre, index);
+          }}
+        />
+      )}
+      {!isGenreActive && (
+        <Virtuoso
+          style={{ height: "100vh" }}
+          data={nextMovieList}
+          endReached={loadMore}
+          firstItemIndex={firstItemIndex}
+          startReached={prependItems}
+          initialTopMostItemIndex={1}
+          itemContent={(index, movieArray) => {
+            console.log("movieArray:", movieArray, index);
+            return renderMovieYearBlock(movieArray, index);
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -1,0 +1,18 @@
+.genreTag {
+  color: white;
+  /* padding: 10px 20px; */
+  background-color: #484848;
+  border-radius: 7px;
+  margin: 5px 5px 7px 5px;
+  display: inline-block;
+  cursor: pointer;
+
+  text-align: center;
+  padding: 5px;
+  text-decoration: none;
+  user-select: none; /* Standard syntax */
+}
+
+.selected {
+  background-color: #f0283c;
+}
