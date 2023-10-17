@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import "./Genre.css";
-import useGenre from "../../utils/Hooks/useGenre";
 const Genres = ({
   // selectedGenres,
   // setSelectedGenres,
@@ -16,9 +15,6 @@ const Genres = ({
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [page, setPage] = useState(1);
 
-  const genreforURL = useGenre(selectedGenres);
-
-  console.log("genreforURL:", genreforURL);
   const handleAdd = (genre) => {
     // setSelectedGenres([...selectedGenres, genre]);
     // setGenres(genres.filter((g) => g.id !== genre.id));

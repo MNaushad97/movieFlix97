@@ -1,7 +1,6 @@
 import Genres from "../Genre/Genre";
 import "./Header.css";
 
-import useGenre from "../../utils/Hooks/useGenre";
 import { useState } from "react";
 
 const Header = ({ setIsGenreActive, setDataFetchedByGenre }) => {
