@@ -4,15 +4,13 @@ import "./Genre.css";
 const Genres = ({
   selectedGenres,
   setSelectedGenres,
-  //   genres,
-  //   setGenres,
+  genres,
+  setGenres,
   type,
   setIsGenreActive,
   setDataFetchedByGenre,
   // setPage,
 }) => {
-  const [genres, setGenres] = useState([]);
-
   const handleAdd = (genre) => {
     // setSelectedGenres([...selectedGenres, genre]);
     // setGenres(genres.filter((g) => g.id !== genre.id));

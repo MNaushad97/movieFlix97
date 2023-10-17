@@ -3,7 +3,7 @@ import "./mainPage.css";
 import MovieCard from "../MovieCard/movieCard";
 import { Virtuoso } from "react-virtuoso";
 
-const MainPageMovies = ({ selectedGenres }) => {
+const MainPageMovies = ({ selectedGenres, genres }) => {
   const generated = [];
   const START_INDEX = 1000; // index number assigned to "first user"
   const INITIAL_ITEM_COUNT = 10; //size of array --->total 10 users 0-9 only | 10009 will be "last user"
@@ -217,6 +217,8 @@ which means 9998 will be our new first ele and it will be till 9999 as added (0-
                 vote_average={movie?.vote_average}
                 ref={endOfTheYearRef}
                 overview={movie?.overview}
+                genres={genres}
+                genre_ids={movie?.genre_ids}
               />
             ))
           ) : (
@@ -250,6 +252,8 @@ which means 9998 will be our new first ele and it will be till 9999 as added (0-
                 vote_average={movie?.vote_average}
                 ref={endOfTheYearRef}
                 overview={movie?.overview}
+                genres={genres}
+                genre_ids={movie?.genre_ids}
               />
             ))}
         </div>

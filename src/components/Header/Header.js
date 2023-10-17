@@ -7,6 +7,8 @@ const Header = ({
   setDataFetchedByGenre,
   selectedGenres,
   setSelectedGenres,
+  setGenres,
+  genres,
 }) => {
   return (
     <div className="headerWithGenre">
@@ -17,6 +19,8 @@ const Header = ({
           setDataFetchedByGenre={setDataFetchedByGenre}
           selectedGenres={selectedGenres}
           setSelectedGenres={setSelectedGenres}
+          genres={genres}
+          setGenres={setGenres}
         />
       </div>
     </div>

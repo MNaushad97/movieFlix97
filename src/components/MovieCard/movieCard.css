@@ -10,9 +10,7 @@
   color: white;
 } 
 
- .poster {
-  border-radius: 10px;
-}  
+ 
 .title {
   width: 100%;
   text-align: center;
@@ -108,7 +106,7 @@
   transform: translateY(0);
 
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  transition-duration: 224ms;
+  transition-duration: 250ms;
   /* border-top-left-radius: 100% 10px;
   border-top-right-radius: 100px 10px; */
 }
@@ -130,4 +128,114 @@ button:focus {
   .overview {
     display: none;
   }
+}
+
+/* modal styling below */
+
+.modal {
+  display: flex; /* Hidden by default */
+  flex-direction: column;
+  position: fixed; /* Stay in place */
+  z-index: 110; /* Sit on top */
+  /* padding-top: 100px; Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: none; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+
+  user-select: none;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #242424;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  border-radius: 25px;
+  text-align: start;
+  overflow: auto;
+  color: white;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.directors {
+  display: flex;
+  flex-direction: column;
+}
+
+.directorsName {
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+}
+
+.poster {
+  border-radius: 10px;
+}
+
+.upperPartOfInfo {
+  display: flex;
+  justify-content: space-around;
+}
+
+.ActorsName {
+  display: flex;
+  flex-wrap: wrap;
+
+  justify-content: space-evenly;
+  width: 200px;
+  height: 400px;
+  overflow: auto;
+  font-size: small;
+}
+
+@media (max-width: 550px) {
+  .upperPartOfInfo .poster {
+    display: none;
+  }
+  .castListDiv {
+    margin: 10px;
+  }
+}
+
+.characterPlayer {
+  font-weight: 700;
+}
+
+.genreOfMovie {
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+  width: auto;
+}
+
+.genreDiv {
+  background-color: #484848;
+  border-radius: 7px;
+  margin: 15px 5px 7px 15px;
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  text-decoration: none;
 }

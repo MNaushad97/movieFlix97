@@ -5,6 +5,8 @@ import Header from "./components/Header/Header";
 import MainPageMovies from "./components/MainPage/mainPage";
 function App() {
   const [selectedGenres, setSelectedGenres] = useState([]);
+
+  const [genres, setGenres] = useState([]);
   const [page, setPage] = useState(1);
 
   return (
@@ -12,9 +14,11 @@ function App() {
       <Header
         selectedGenres={selectedGenres}
         setSelectedGenres={setSelectedGenres}
+        genres={genres}
+        setGenres={setGenres}
       />
 
-      <MainPageMovies selectedGenres={selectedGenres} />
+      <MainPageMovies selectedGenres={selectedGenres} genres={genres} />
     </div>
   );
 }
