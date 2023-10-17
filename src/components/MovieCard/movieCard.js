@@ -36,7 +36,7 @@ const MovieCard = forwardRef(
           <br />
         </div> */}
         <div className="overview">
-          <h3>Overview</h3>
+          <h3>{title}</h3>
           {expanded ? (
             <div>
               {overview}
@@ -49,7 +49,6 @@ const MovieCard = forwardRef(
               {overview.slice(0, 100)} {overview.length > 100 ? "..." : ""}
               <br />
               <br />
-              {/* Display only the first 100 characters */}
               {overview.length > 100 && (
                 <button onClick={toggleExpansion}>Read More...</button>
               )}
