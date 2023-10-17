@@ -44,7 +44,6 @@ const MainPageMovies = ({ selectedGenres }) => {
         const a = data.results;
         console.log("added prev:", movieYear, "-->", a);
         setPrevYear(movieYear);
-        setNextMovieList((prev) => [a, ...prev]);
         return data?.results;
       } else if (type === "nextYear") {
         setNextMovieList((prev) => [...prev, data.results]);
@@ -122,6 +121,29 @@ const MainPageMovies = ({ selectedGenres }) => {
     }
   }, [fetchMoviesByGenre, selectedGenres]);
 
+  const getMovies = async (index, i) => {
+    if (!generated[index]) {
+      generated[index] = fetchMovies(prevYear - i, "prevYear", index);
+    }
+    console.log("generated[index]:", generated[index]);
+    return await generated[index];
+  };
+
+  function generateMovies(length, startIndex = 0) {
+    return Array.from({ length }).map((_, i) => getMovies(i + startIndex, i));
+    /*
+  The first parameter (represented by _) is a placeholder for the current element in the array.
+   Since we're not interested in the values of the array elements (they are all undefined),
+    we use _ as a conventional way to indicate that we're not using this parameter.
+
+i: The second parameter (represented by i) is the index of the current element in the array. 
+It represents the position of the element in the array.
+
+as fisrt element is at 10000 and usersToPrepend =2
+which means 9998 will be our new first ele and it will be till 9999 as added (0-1)
+  
+  */
+  }
   useEffect(() => {
     console.log("year:", year);
     if (year === 2011 && !nextMovieList.length) {
@@ -151,6 +173,10 @@ const MainPageMovies = ({ selectedGenres }) => {
 
     setTimeout(() => {
       setFirstItemIndex(() => nextFirstItemIndex);
+      setNextMovieList(() => [
+        ...generateMovies(movieListToPrepend, nextFirstItemIndex),
+        ...nextMovieList,
+      ]);
     }, 500);
 
     return false;
