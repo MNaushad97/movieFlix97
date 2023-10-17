@@ -8,7 +8,7 @@ const MainPageMovies = ({ selectedGenres, genres }) => {
   const START_INDEX = 1000; // index number assigned to "first user"
   const INITIAL_ITEM_COUNT = 10; //size of array --->total 10 users 0-9 only | 10009 will be "last user"
 
-  const [year, setYear] = useState(2011); // Start from 2012
+  const [year, setYear] = useState(2010); // Start from 2010
   const [prevYear, setPrevYear] = useState(2011); // Start from 2012
 
   const [prevMovieList, setPrevMovieList] = useState([]);
@@ -26,10 +26,12 @@ const MainPageMovies = ({ selectedGenres, genres }) => {
   const [isLoadingMovie, setIsLoadingMovie] = useState(false);
   //const [page, setPage] = useState(1);
   let pageRef = useRef(1);
-  let prevDataRef = useRef();
-
+  const currentYear = new Date().getFullYear();
   const fetchMovies = async (movieYear, type, index) => {
     setIsLoadingMovie(true);
+    if (movieYear > currentYear) {
+      return;
+    }
     //react app needs to be restarted whenever we change something in .env file
     console.log("type:", type, "movieYear:", movieYear);
     try {
@@ -154,7 +156,7 @@ which means 9998 will be our new first ele and it will be till 9999 as added (0-
   }
   useEffect(() => {
     console.log("year:", year);
-    if (year === 2011 && !nextMovieList.length) {
+    if (year === 2010 && !nextMovieList.length) {
       fetchMovies(year, "initialLoad");
     } else if (year < 2013) {
       fetchMovies(year, "nextYear");
@@ -179,13 +181,13 @@ which means 9998 will be our new first ele and it will be till 9999 as added (0-
     // Fetch and prepend movies for the previous year
     // Update the firstItemIndex to reflect the change in data structure
 
-    setTimeout(() => {
-      setFirstItemIndex(() => nextFirstItemIndex);
-      setNextMovieList(() => [
-        ...generateMovies(movieListToPrepend, nextFirstItemIndex),
-        ...nextMovieList,
-      ]);
-    }, 500);
+    // setTimeout(() => {
+    //   setFirstItemIndex(() => nextFirstItemIndex);
+    //   setNextMovieList(() => [
+    //     ...generateMovies(movieListToPrepend, nextFirstItemIndex),
+    //     ...nextMovieList,
+    //   ]);
+    // }, 500);
 
     return false;
   }, [firstItemIndex, setFirstItemIndex, fetchMovies]);
@@ -285,7 +287,7 @@ which means 9998 will be our new first ele and it will be till 9999 as added (0-
           endReached={loadMore}
           firstItemIndex={firstItemIndex}
           startReached={prependItems}
-          initialTopMostItemIndex={1}
+          initialTopMostItemIndex={2}
           itemContent={(index, movieArray) => {
             // console.log("movieArray:", movieArray, index);
             return renderMovieYearBlock(movieArray, index);
