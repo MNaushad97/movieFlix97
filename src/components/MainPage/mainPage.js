@@ -21,11 +21,15 @@ const MainPageMovies = ({ selectedGenres }) => {
   const [dataFetchedByGenre, setDataFetchedByGenre] = useState([]);
 
   const [isGenreActive, setIsGenreActive] = useState(false);
+  const [isLoadingGenreMovie, setIsLoadingGenreMovie] = useState(false);
+
+  const [isLoadingMovie, setIsLoadingMovie] = useState(false);
   //const [page, setPage] = useState(1);
   let pageRef = useRef(1);
   let prevDataRef = useRef();
 
   const fetchMovies = async (movieYear, type, index) => {
+    setIsLoadingMovie(true);
     //react app needs to be restarted whenever we change something in .env file
     console.log("type:", type, "movieYear:", movieYear);
     try {
@@ -55,10 +59,13 @@ const MainPageMovies = ({ selectedGenres }) => {
     } catch (error) {
       console.error(error);
       // Handling the error
+    } finally {
+      setIsLoadingMovie(false);
     }
   };
   const fetchMoviesByGenre = useCallback(
     async (listOfGenres, type, pageNumber) => {
+      setIsLoadingGenreMovie(true);
       console.log(
         type,
         "fetchMoviesByGenre:",
@@ -95,6 +102,7 @@ const MainPageMovies = ({ selectedGenres }) => {
         console.error(error);
         // Handling the error
       } finally {
+        setIsLoadingGenreMovie(false);
       }
     },
     []
