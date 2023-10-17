@@ -27,7 +27,7 @@ const MainPageMovies = ({ selectedGenres }) => {
 
   const fetchMovies = async (movieYear, type, index) => {
     //react app needs to be restarted whenever we change something in .env file
-    console.log("movieYear:", movieYear);
+    console.log("type:", type, "movieYear:", movieYear);
     try {
       const response = await fetch(
         `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&sort_by=popularity.desc&primary_release_year=${movieYear}&page=1&vote_count.gte=100`
@@ -101,7 +101,7 @@ const MainPageMovies = ({ selectedGenres }) => {
   );
 
   useEffect(() => {
-    console.log("selectedGenres:", selectedGenres);
+    // console.log("selectedGenres:", selectedGenres);
     if (selectedGenres.length > 0) {
       setDataFetchedByGenre([]);
       setIsGenreActive(true);
@@ -187,7 +187,7 @@ which means 9998 will be our new first ele and it will be till 9999 as added (0-
   }, [nextMovieList]);
 
   const renderMovieYearBlock = (movieArray, index, style) => {
-    console.log("movieArray:", movieArray);
+    // console.log("renderMovieYearBlock:", movieArray);
     return (
       <div className="movieWithYearBlock" key={index}>
         <span className="yearHeader">
@@ -208,6 +208,7 @@ which means 9998 will be our new first ele and it will be till 9999 as added (0-
                 media_type={movie?.media_type}
                 vote_average={movie?.vote_average}
                 ref={endOfTheYearRef}
+                overview={movie?.overview}
               />
             ))
           ) : (
@@ -219,7 +220,7 @@ which means 9998 will be our new first ele and it will be till 9999 as added (0-
   };
 
   const renderGenreMovie = (movieArray, index, style) => {
-    console.log("movieArray:", movieArray);
+    // console.log("movieArray:", movieArray);
     return (
       <div className="movieWithYearBlock" key={index}>
         {/* <span className="yearHeader">
@@ -240,6 +241,7 @@ which means 9998 will be our new first ele and it will be till 9999 as added (0-
                 media_type={movie?.media_type}
                 vote_average={movie?.vote_average}
                 ref={endOfTheYearRef}
+                overview={movie?.overview}
               />
             ))}
         </div>
@@ -273,7 +275,7 @@ which means 9998 will be our new first ele and it will be till 9999 as added (0-
           startReached={prependItems}
           initialTopMostItemIndex={1}
           itemContent={(index, movieArray) => {
-            console.log("movieArray:", movieArray, index);
+            // console.log("movieArray:", movieArray, index);
             return renderMovieYearBlock(movieArray, index);
           }}
         />

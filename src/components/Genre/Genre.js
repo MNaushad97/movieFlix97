@@ -49,7 +49,7 @@ const Genres = ({
 
       const data = await response.json();
 
-      console.log(" genres data:", data?.genres);
+      // console.log(" genres data:", data?.genres);
       setGenres([...data?.genres]);
     } catch (error) {
       console.error(error);
@@ -65,7 +65,6 @@ const Genres = ({
 
   return (
     <>
-      {console.log("html genres:", genres)}
       {genres?.map((genre) => (
         <div
           key={genre.id}

@@ -1,19 +1,24 @@
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 import { img_300, unavailable } from "../../Config/config";
 import "./movieCard.css";
 const MovieCard = forwardRef(
-  ({ id, poster: moviePoster, title, date, media_type, vote_average }, ref) => {
-    function formatDate(receivedReleasedDate) {
-      const inputDate = receivedReleasedDate;
-      const date = new Date(inputDate);
+  (
+    {
+      id,
+      poster: moviePoster,
+      title,
+      overview,
+      date,
+      media_type,
+      vote_average,
+    },
+    ref
+  ) => {
+    const [expanded, setExpanded] = useState(false);
 
-      const day = date.getDate().toString().padStart(2, "0");
-      const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Month is 0-based, so we add 1
-      const year = date.getFullYear();
-
-      const formattedDate = `${day}-${month}-${year}`;
-      return formattedDate;
-    }
+    const toggleExpansion = () => {
+      setExpanded(!expanded);
+    };
 
     return (
       <div className="movieCard" ref={ref}>
@@ -22,11 +27,34 @@ const MovieCard = forwardRef(
           src={moviePoster ? `${img_300}${moviePoster}` : unavailable}
           alt={title}
         />
-        <div className="title">
-          <b>{title}</b>
+        <div className="movie-info">
+          <p>{title}</p>
         </div>
-        <span className="ratings">{vote_average}</span>
-        <span className="ratings">{formatDate(date)}</span>
+        {/* <div class="overview">
+          <h3>Overview</h3>
+          {overview}
+          <br />
+        </div> */}
+        <div className="overview">
+          <h3>Overview</h3>
+          {expanded ? (
+            <div>
+              {overview}
+              <br />
+              <br />
+              <button onClick={toggleExpansion}>Read Less</button>
+            </div>
+          ) : (
+            <div>
+              {overview.slice(0, 100)}... <br />
+              <br />
+              {/* Display only the first 100 characters */}
+              {overview.length > 100 && (
+                <button onClick={toggleExpansion}>Read More...</button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     );
   }

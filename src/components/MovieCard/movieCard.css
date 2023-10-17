@@ -1,4 +1,4 @@
-.movieCard {
+/* .movieCard {
   display: flex;
   flex-direction: column;
   width: 200px;
@@ -8,26 +8,11 @@
   position: relative;
   font-family: "Montserrat", sans-serif;
   color: white;
-}
+} 
 
-.movieCard:hover {
-  background-color: white;
-  color: black;
-  transform: scale(1.025);
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  transition-duration: 224ms;
-}
-
-@media (max-width: 550px) {
-  .movieCard {
-    width: 46%;
-  }
-}
-
-.poster {
+ .poster {
   border-radius: 10px;
-}
-
+}  
 .title {
   width: 100%;
   text-align: center;
@@ -42,3 +27,101 @@
   padding: 0 2px;
   padding-bottom: 3px;
 }
+*/
+.movieCard:hover {
+  background-color: white;
+  color: black;
+  transform: scale(1.025);
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  transition-duration: 224ms;
+}
+
+.movieCard {
+  margin: 1rem;
+  border-radius: 3px;
+  box-shadow: 0.2px 4px 5px rgba(0, 0, 0, 0.1);
+  background-color: var(--secondary-color);
+  position: relative;
+  overflow: hidden;
+
+  width: 200px;
+  padding: 5px;
+  margin: 7px 0;
+  border-radius: 10px;
+  font-family: "Montserrat", sans-serif;
+  color: white;
+}
+@media (max-width: 550px) {
+  .movieCard {
+    width: 46%;
+  }
+}
+
+.movieCard img {
+  width: 100%;
+
+  border-radius: 10px;
+}
+
+.movieCard-info {
+  color: #eee;
+  display: flex;
+  padding: 0.5rem 1rem 1rem;
+  letter-spacing: 0.5px;
+}
+
+.movie-info h3 {
+  margin-top: 0;
+}
+
+.overview {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  background-color: #fff;
+  padding: 0rem 1rem 1rem 1rem;
+  user-select: none;
+  max-height: 100%;
+  transform: translateY(101%);
+  transition: transform 0.3s ease-in;
+  text-align: start;
+  font-size: small;
+  overflow: auto;
+}
+
+/* Hiding scrollbar for Chrome, Safari and Opera */
+.overview::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hiding scrollbar for IE, Edge and Firefox */
+.overview {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.movieCard:hover .overview {
+  transform: translateY(0);
+
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  transition-duration: 224ms;
+  border-top-left-radius: 16% 16%;
+  border-top-right-radius: 16% 16%;
+  /* border-top-left-radius: 100% 10px;
+  border-top-right-radius: 100px 10px; */
+}
+button {
+  background: none;
+  border: none;
+  color: #0074cc; /* Set the color of the text to your preference */
+  /* text-decoration: underline; */
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+button:focus {
+  outline: none; /* Remove focus outline */
+}
+/* Additional CSS for the "Read Less" button when expanded */
