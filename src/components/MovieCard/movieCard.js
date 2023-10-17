@@ -46,7 +46,8 @@ const MovieCard = forwardRef(
             </div>
           ) : (
             <div>
-              {overview.slice(0, 100)}... <br />
+              {overview.slice(0, 100)} {overview.length > 100 ? "..." : ""}
+              <br />
               <br />
               {/* Display only the first 100 characters */}
               {overview.length > 100 && (
