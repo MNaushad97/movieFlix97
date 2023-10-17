@@ -37,7 +37,7 @@ export const getUser = (index) => {
   if (!generated[index]) {
     generated[index] = user(index);
   }
-
+  console.log("users generated:", generated);
   return generated[index];
 };
 
