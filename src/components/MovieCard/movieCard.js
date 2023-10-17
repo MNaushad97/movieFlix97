@@ -87,8 +87,8 @@ const MovieCard = forwardRef(
               setIsModalActive(false);
             }}
           >
-            <div className="modal-content">
-              <div onClick={(e) => e.stopPropagation()}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <div>
                 <div
                   className="close"
                   onClick={() => {
