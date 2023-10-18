@@ -17,7 +17,6 @@ A responsive web application that displays a list of movies from The Movie Datab
   
 ### →  By default, when a user lands on the page, it displays a list of movies of the year 2012
 
-<span> <img src="https://github.com/MNaushad97/movieFlix97/blob/main/web_prevNext_demo.gif" width="403" height="223" />
 
 <img src="https://github.com/MNaushad97/movieFlix97/blob/main/web_infinite_scroll.gif" width="403" height="223" />
 
