@@ -54,15 +54,26 @@ A responsive web application that displays a list of movies from The Movie Datab
 > Encountered scroll jitter issues when trying to load the previous year's movie list. To ensure a smoother and more responsive user experience had to optimize the code by streamlining certain logic and reducing unnecessary computations related to the movie list retrieval and rendering. 
 
 Requirements Covered ✅ | Not Covered ⚠️ 🚧
-- Created
+✅ Created custom UI components for the app, using React
+✅ Displays a list of movies sorted in descending order of popularity.
+✅ Shows information card for each movieCard.
+✅ Load a total of only 20 movies for each year
+✅ Implemented smooth scrolling behavior
+✅ Interaction is smooth and doesn’t cause any jitters.
+✅ Allows users to filter movies by genre.
+✅ Multiple Genre selection implemented
+⚠️ 🚧 Encountered scroll jitter issues while trying to load the previous year's movie list (removed logic )
+
+
+
 
 ### How To Run The Project
 
-- Prerequisite:
+**Prerequisite:**
  - vs code
  - node v18
 
-- Steps to Run The Project
+**Steps to Run The Project**
 
 1. Open terminal/cmd at project location and run command: `git clone https://github.com/MNaushad97/movieFlix97.git`
 2. move to folder movieFlix97 using command: `cd movieFlix97`
