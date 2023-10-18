@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import "./Genre.css";
 const Genres = ({
@@ -10,16 +10,12 @@ const Genres = ({
   // setPage,
 }) => {
   const handleAdd = (genre) => {
-    // setSelectedGenres([...selectedGenres, genre]);
-    // setGenres(genres.filter((g) => g.id !== genre.id));
-    // setPage(1);
-    console.log("genre:", genre);
-    if (selectedGenres.length == 0) {
+    if (selectedGenres.length === 0) {
       setSelectedGenres((prev) => [...prev, genre.id]);
     } else {
       if (selectedGenres.includes(genre.id)) {
         selectedGenres.forEach((id, idx) => {
-          if (id == genre.id) {
+          if (id === genre.id) {
             let list = [...selectedGenres];
 
             list.splice(idx, 1);

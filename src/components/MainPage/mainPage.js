@@ -201,7 +201,10 @@ const MainPageMovies = ({ selectedGenres, genres }) => {
   return (
     <>
       <div className="mainPage">
-        {(isLoadingGenreMovie || isLoadingMovie) && (
+        {isLoadingMovie && nextMovieList.length < 3 && (
+          <div className="loader"></div>
+        )}
+        {isLoadingGenreMovie && dataFetchedByGenre.length < 2 && (
           <div className="loader"></div>
         )}
         {isGenreActive && dataFetchedByGenre.length > 0 && (
