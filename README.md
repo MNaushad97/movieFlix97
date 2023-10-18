@@ -34,7 +34,7 @@ A responsive web application that displays a list of movies from The Movie Datab
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-### →  Shows title, image, genre, cast, director, and a short description in a Info-card if user clicks "know more" or "movieCard" which carries 
+### →  Shows information card for each movieCard.
 
 > Allow the image to load
 
@@ -64,6 +64,8 @@ Requirements Covered ✅ | Not Covered ⚠️ 🚧
 ✅ Load a total of only 20 movies for each year
 
 ✅ Implemented smooth scrolling behavior
+
+✅ Implemented virtualised rendering maintaing infinite scroll feel
 
 ✅ Interaction is smooth and doesn’t cause any jitters.
 
