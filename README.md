@@ -22,8 +22,10 @@ A responsive web application that displays a list of movies from The Movie Datab
 > Allow the images to load
 
 
-<span>  <img src="MobileHome.gif" width="156" height="239.28" />  </span>
-<img src="SignIn.gif" width="403" height="223" />
+<img src="https://github.com/MNaushad97/movieFlix97/blob/main/web_genre_demo.gif" width="403" height="223" />
+<img src="https://github.com/MNaushad97/movieFlix97/blob/main/web_genre_infiteScroll_demo.gif" width="403" height="223" />
+<img src="https://github.com/MNaushad97/movieFlix97/blob/main/web_infoCard_demo.gif" width="403" height="223" />
+<img src="https://github.com/MNaushad97/movieFlix97/blob/main/web_prevNext_demo.gif" width="403" height="223" />
 
 
 
