@@ -30,6 +30,7 @@ const MainPageMovies = ({ selectedGenres, genres }) => {
   const fetchMovies = async (movieYear, type) => {
     setIsLoadingMovie(true);
     if (movieYear > currentYear) {
+      setIsLoadingMovie(false);
       return;
     }
     //react app needs to be restarted whenever we change something in .env file
