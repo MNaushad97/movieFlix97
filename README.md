@@ -59,8 +59,8 @@ Requirements Covered ✅ | Not Covered ⚠️ 🚧
 ### How To Run The Project
 
 - Prerequisite:
-vs code
-node v18
+ - vs code
+ - node v18
 
 - Steps to Run The Project
 
