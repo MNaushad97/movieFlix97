@@ -52,3 +52,16 @@ A responsive web application that displays a list of movies from The Movie Datab
 
 
 > Encountered scroll jitter issues when trying to load the previous year's movie list. To ensure a smoother and more responsive user experience had to optimize the code by streamlining certain logic and reducing unnecessary computations related to the movie list retrieval and rendering. 
+
+- Prerequisite:
+vs code
+node v18
+
+- Steps to Run The Project
+
+1. Open terminal/cmd at project location and run command: `git clone https://github.com/MNaushad97/movieFlix97.git`
+2. move to folder movieFlix97 using command: `cd movieFlix97`
+3. Make sure you have the .env file intact with `REACT_APP_API_KEY`
+4. To install dependencies run command: `npm install`
+5. Now run app using command: `npm start`
+6. The project will get hosted at url: http: localhost:3000
