@@ -1,14 +1,22 @@
 .mainPage {
-  display: flex;
-  flex-wrap: wrap;
   position: absolute;
   background-color: #121212;
-  margin-top: 160px;
+  /* background-color: white; */
+  margin-top: 14vh;
+  width: 100vw;
+  height: 100vh;
+  user-select: none;
 }
-
+@media (max-width: 550px) {
+  .mainPage {
+    margin-top: 3.5rem;
+  }
+}
 .movieWithYearBlock {
   display: flex;
   flex-direction: column;
+  height: auto;
+  margin-top: 20px;
 }
 .yearHeader {
   align-self: start; /* Align text-child with the center of container2 */
@@ -23,4 +31,10 @@
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+}
+
+.nothingFound {
+  position: relative;
+  margin-top: 20vh;
+  height: 200px;
 }

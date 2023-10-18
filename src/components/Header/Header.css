@@ -1,15 +1,14 @@
 .header {
-  position: fixed;
   display: flex;
-  justify-content: center;
   width: 100%;
-  cursor: pointer;
   /* text-transform: uppercase; */
   background-color: #242424;
+  /* background-color: white; */
+  user-select: none;
+
   font-family: "Bebas Neue", sans-serif;
   font-size: 5vw;
-  padding-bottom: 15px;
-  box-shadow: 0px 1px 5px black;
+  padding-left: 18px;
   color: #f0283c;
   z-index: 100;
 }
@@ -19,4 +18,13 @@
     padding-top: 15px;
     font-size: 6.4vw;
   }
+}
+
+.headerWithGenre {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 15px;
+  width: 100%;
+  z-index: 100;
 }

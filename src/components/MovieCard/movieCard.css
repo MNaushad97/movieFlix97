@@ -1,33 +1,16 @@
-.movieCard {
+/* .movieCard {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 200px;
   padding: 5px;
   margin: 7px 0;
   border-radius: 10px;
   position: relative;
   font-family: "Montserrat", sans-serif;
   color: white;
-}
+} 
 
-.movieCard:hover {
-  background-color: white;
-  color: black;
-  transform: scale(1.025);
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  transition-duration: 224ms;
-}
-
-@media (max-width: 550px) {
-  .movieCard {
-    width: 46%;
-  }
-}
-
-.poster {
-  border-radius: 10px;
-}
-
+ 
 .title {
   width: 100%;
   text-align: center;
@@ -41,4 +24,219 @@
   padding-bottom: 3px;
   padding: 0 2px;
   padding-bottom: 3px;
+}
+*/
+@media (min-width: 640px) {
+  .movieCard:hover {
+    background-color: white;
+    color: black;
+    transform: scale(1.025);
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    transition-duration: 224ms;
+  }
+}
+
+.movieCard {
+  margin: 1rem;
+  border-radius: 3px;
+  box-shadow: 0.2px 4px 5px rgba(0, 0, 0, 0.1);
+  background-color: var(--secondary-color);
+  position: relative;
+  overflow: hidden;
+
+  cursor: pointer;
+  width: 200px;
+  padding: 5px;
+  margin: 7px 0;
+  border-radius: 10px;
+  font-family: "Montserrat", sans-serif;
+  color: white;
+}
+@media (max-width: 550px) {
+  .movieCard {
+    width: 46%;
+  }
+}
+
+.movieCard img {
+  width: 100%;
+
+  border-radius: 10px;
+}
+
+.movieCard-info {
+  color: #eee;
+  display: flex;
+  padding: 0.5rem 1rem 1rem;
+  letter-spacing: 0.5px;
+}
+
+.movie-info h3 {
+  margin-top: 0;
+}
+
+.overview {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  background-color: #fff;
+  padding: 0rem 1rem 1rem 1rem;
+  user-select: none;
+  max-height: 100%;
+  transform: translateY(101%);
+  transition: transform 0.3s ease-in;
+  text-align: start;
+  font-size: small;
+  overflow: auto;
+  border-top-left-radius: 10%;
+  border-top-right-radius: 10%;
+}
+
+/* Hiding scrollbar for Chrome, Safari and Opera */
+.overview::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hiding scrollbar for IE, Edge and Firefox */
+.overview {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.movieCard:hover .overview {
+  transform: translateY(0);
+
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  transition-duration: 250ms;
+  /* border-top-left-radius: 100% 10px;
+  border-top-right-radius: 100px 10px; */
+}
+button {
+  background: none;
+  border: none;
+  color: #0074cc;
+  /* text-decoration: underline; */
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+button:focus {
+  outline: none; /* Remove focus outline */
+}
+/* CSS for small devices */
+@media screen and (max-width: 640px) {
+  .overview {
+    display: none;
+  }
+}
+
+/* modal styling below */
+
+.modal {
+  display: flex;
+  justify-content: center;
+  position: fixed; /* Stay in place */
+  z-index: 110; /* Sit on top */
+  /* padding-top: 100px; Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: none; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  user-select: none;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #242424;
+  margin: 30px;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 70%;
+  border-radius: 25px;
+  text-align: start;
+  overflow: auto;
+  color: white;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.directors {
+  display: flex;
+  flex-direction: column;
+}
+
+.directorsName {
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+}
+
+.poster {
+  border-radius: 10px;
+}
+
+.upperPartOfInfo {
+  display: flex;
+  justify-content: space-around;
+}
+
+.ActorsName {
+  display: flex;
+  flex-wrap: wrap;
+
+  justify-content: space-evenly;
+  width: 200px;
+  height: 400px;
+  overflow: auto;
+  font-size: small;
+}
+
+@media (max-width: 800px) {
+  .upperPartOfInfo .poster {
+    display: none;
+  }
+  .castListDiv {
+    margin: auto;
+  }
+}
+
+.characterPlayer {
+  font-weight: 700;
+}
+
+.genreOfMovie {
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+  width: auto;
+}
+
+.genreDiv {
+  background-color: #484848;
+  border-radius: 7px;
+  margin: 15px 5px 7px 15px;
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  text-decoration: none;
 }
