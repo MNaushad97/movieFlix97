@@ -16,6 +16,10 @@ A responsive web application that displays a list of movies from The Movie Datab
 > [→ about virtualized rendering](https://betterprogramming.pub/virtualized-rendering-from-scratch-in-react-34c2ad482b16)
   
 ### →  By default, when a user lands on the page, it displays a list of movies of the year 2012
+
+<img src="https://github.com/MNaushad97/movieFlix97/blob/main/web_prevNext_demo.gif" width="403" height="223" />
+
+
 ### →  Load a total of only 20 movies for each year.
 ### →  User can select one or more genres and the list only display movies of the selected genres.
 
@@ -24,10 +28,7 @@ A responsive web application that displays a list of movies from The Movie Datab
 
 <img src="https://github.com/MNaushad97/movieFlix97/blob/main/web_genre_demo.gif" width="403" height="223" />
 <img src="https://github.com/MNaushad97/movieFlix97/blob/main/web_genre_infiteScroll_demo.gif" width="403" height="223" />
-<img src="https://github.com/MNaushad97/movieFlix97/blob/main/web_infoCard_demo.gif" width="403" height="223" />
-<img src="https://github.com/MNaushad97/movieFlix97/blob/main/web_prevNext_demo.gif" width="403" height="223" />
-
-
+<img src="https://github.com/MNaushad97/movieFlix97/blob/main/mobile_scroll_genre_demo.gif" width="156" height="239.28" />  </span>
 
 
 
@@ -38,7 +39,10 @@ A responsive web application that displays a list of movies from The Movie Datab
 
 > Allow the image to load
 
-<img src="DynamicLink.gif" width="403" height="223" />
+<img src="https://github.com/MNaushad97/movieFlix97/blob/main/web_infoCard_demo.gif" width="403" height="223" />
+
+<img src="https://github.com/MNaushad97/movieFlix97/blob/main/mobile_infoCard_close.gif" width="156" height="239.28" />  </span>
+
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -46,8 +50,6 @@ A responsive web application that displays a list of movies from The Movie Datab
 > Allow the image to load
 
 
-<img src="https://github.com/MNaushad97/movieFlix97/blob/main/mobile_infoCard_close.gif" width="156" height="239.28" />  </span>
-<img src="https://github.com/MNaushad97/movieFlix97/blob/main/mobile_scroll_genre_demo.gif" width="156" height="239.28" />  </span>
 
 
 
