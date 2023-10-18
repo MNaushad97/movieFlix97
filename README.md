@@ -53,6 +53,11 @@ A responsive web application that displays a list of movies from The Movie Datab
 
 > Encountered scroll jitter issues when trying to load the previous year's movie list. To ensure a smoother and more responsive user experience had to optimize the code by streamlining certain logic and reducing unnecessary computations related to the movie list retrieval and rendering. 
 
+Requirements Covered ✅ | Not Covered ⚠️ 🚧
+- Created
+
+### How To Run The Project
+
 - Prerequisite:
 vs code
 node v18
