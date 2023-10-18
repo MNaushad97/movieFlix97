@@ -24,27 +24,19 @@ A responsive web application that displays a list of movies from The Movie Datab
 6. The project will get hosted at url: http: localhost:3000
 
 
-Requirements Covered ✅ | Not Covered ⚠️ 🚧
+Requirements Covered ✅ :
+- Created custom UI components for the app, using React
+- Displays a list of movies sorted in descending order of popularity.
+- Shows information card for each movieCard.
+- Load a total of only 20 movies for each year
+- Implemented smooth scrolling behavior
+- Implemented virtualised rendering maintaing infinite scroll feel
+- Interaction is smooth and doesn’t cause any jitters.
+- Allows users to filter movies by genre.
+- Multiple Genre selection implemented
 
-✅ Created custom UI components for the app, using React
-
-✅ Displays a list of movies sorted in descending order of popularity.
-
-✅ Shows information card for each movieCard.
-
-✅ Load a total of only 20 movies for each year
-
-✅ Implemented smooth scrolling behavior
-
-✅ Implemented virtualised rendering maintaing infinite scroll feel
-
-✅ Interaction is smooth and doesn’t cause any jitters.
-
-✅ Allows users to filter movies by genre.
-
-✅ Multiple Genre selection implemented
-
-⚠️ 🚧 Not Covered : loading movies of previous year when user scrolls up  (logic commented / removed )
+⚠️ 🚧 Requirements Not Covered : 
+- loading movies of previous year when user scrolls up  (logic commented / removed )
 
 
 > Encountered scroll jitter issues when trying to load the previous year's movie list. To ensure a smoother and more responsive user experience had to optimize the code by streamlining certain logic and reducing unnecessary computations related to the movie list retrieval and rendering. 
