@@ -39,7 +39,7 @@ Requirements Covered ✅ :
 - loading movies of previous year when user scrolls up  (logic commented / removed )
 
 
-> Encountered scroll jitter issues when trying to load the previous year's movie list. To ensure a smoother and more responsive user experience had to optimize the code by streamlining certain logic and reducing unnecessary computations related to the movie list retrieval and rendering. 
+> Encountered scroll jump issues while trying to load the previous year's movie list. To ensure a smoother and more responsive user experience had to optimize the code by streamlining certain logic and reducing unnecessary computations related to the movie list retrieval and rendering. 
 
 
 **used React + React Virtuoso + CSS**
