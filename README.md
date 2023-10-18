@@ -55,7 +55,9 @@ A responsive web application that displays a list of movies from The Movie Datab
 
 Requirements Covered ✅ | Not Covered ⚠️ 🚧
 ✅ Created custom UI components for the app, using React
+
 ✅ Displays a list of movies sorted in descending order of popularity.
+
 ✅ Shows information card for each movieCard.
 ✅ Load a total of only 20 movies for each year
 ✅ Implemented smooth scrolling behavior
