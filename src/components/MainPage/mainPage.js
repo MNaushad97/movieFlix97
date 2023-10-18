@@ -210,7 +210,7 @@ const MainPageMovies = ({ selectedGenres, genres }) => {
         {isGenreActive && dataFetchedByGenre.length > 0 && (
           //if genre is selected render movie by Genre
           <Virtuoso
-            style={{ height: "88vh", marginTop: "200px" }}
+            style={{ height: "88vh", marginTop: "10vh" }}
             data={dataFetchedByGenre}
             endReached={loadMoreGenreMovies} // load data of nextPage as infiniteLoading
             itemContent={(index, movieArray) => {
@@ -221,7 +221,7 @@ const MainPageMovies = ({ selectedGenres, genres }) => {
         {!isGenreActive && !isLoadingGenreMovie && (
           //if genre is not_selected rendering movieBy year
           <Virtuoso
-            style={{ height: "88vh", marginTop: "200px" }}
+            style={{ height: "88vh", marginTop: "10vh" }}
             data={nextMovieList}
             endReached={loadMore}
             initialTopMostItemIndex={2} //changes initial location to particular index
