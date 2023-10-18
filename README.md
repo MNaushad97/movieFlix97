@@ -44,8 +44,11 @@ A responsive web application that displays a list of movies from The Movie Datab
 
 
 
+
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
+<img src="https://github.com/MNaushad97/movieFlix97/blob/main/web_genre_infiteScroll_demo.gif" width="403" height="223" />
 
 
 
