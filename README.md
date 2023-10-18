@@ -5,7 +5,7 @@
 
 A responsive web application that displays a list of movies from The Movie Database (TMDb) API. The app shows top movies for each year and users can filter by genre.
 
-> Please scroll to Images get a glance
+> Please scroll to GIFs to get a glance
 
 
 ### How To Run The Project
