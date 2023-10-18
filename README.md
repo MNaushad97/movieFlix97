@@ -38,7 +38,7 @@ A responsive web application that displays a list of movies from The Movie Datab
 
 > Allow the image to load
 
-<img src="https://github.com/MNaushad97/Disney97/blob/main/src/features/disneyWebTailer.gif" width="403" height="223" />
+<img src="disneyWebTailer.gif" width="403" height="223" />
 
 
-> Encountered scroll jitter issues when trying to load the previous year's movie list. To ensure a smoother and more responsive user experience, we made the decision to optimize the code by streamlining certain logic and reducing unnecessary computations related to the movie list retrieval and rendering. 
+> Encountered scroll jitter issues when trying to load the previous year's movie list. To ensure a smoother and more responsive user experience had to optimize the code by streamlining certain logic and reducing unnecessary computations related to the movie list retrieval and rendering. 
