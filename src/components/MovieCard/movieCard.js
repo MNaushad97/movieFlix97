@@ -18,7 +18,6 @@ const MovieCard = forwardRef(
     },
     ref
   ) => {
-    const [expanded, setExpanded] = useState(false);
     const [isModalActive, setIsModalActive] = useState(false);
     const [isLoadingCredits, setIsLoadingCredits] = useState(false);
     const [credits, setCredits] = useState([]);
@@ -74,9 +73,6 @@ const MovieCard = forwardRef(
       console.log("directors:", directors);
       setDirectorList(directors);
     }, [credits, castList, crewList]);
-    const toggleExpansion = () => {
-      setExpanded(!expanded);
-    };
 
     return (
       <>
@@ -102,20 +98,13 @@ const MovieCard = forwardRef(
           </div>
           <div className="overview">
             <h3>{title}</h3>
-            {expanded ? (
-              <div>
-                {overview}
-                <br />
-                <br />
-                <button onClick={toggleExpansion}>Read Less</button>
-              </div>
-            ) : (
+            {!isModalActive && (
               <div>
                 {overview.slice(0, 100)} {overview.length > 100 ? "..." : ""}
                 <br />
                 <br />
                 {overview.length > 100 && (
-                  <button onClick={toggleExpansion}>Read More...</button>
+                  <button onClick={handleOnCardClick}>Read More...</button>
                 )}
               </div>
             )}

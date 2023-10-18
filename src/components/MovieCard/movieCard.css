@@ -26,12 +26,14 @@
   padding-bottom: 3px;
 }
 */
-.movieCard:hover {
-  background-color: white;
-  color: black;
-  transform: scale(1.025);
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  transition-duration: 224ms;
+@media (min-width: 640px) {
+  .movieCard:hover {
+    background-color: white;
+    color: black;
+    transform: scale(1.025);
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    transition-duration: 224ms;
+  }
 }
 
 .movieCard {
@@ -86,7 +88,6 @@
   text-align: start;
   font-size: small;
   overflow: auto;
-
   border-top-left-radius: 10%;
   border-top-right-radius: 10%;
 }
@@ -124,7 +125,7 @@ button:focus {
   outline: none; /* Remove focus outline */
 }
 /* CSS for small devices */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 640px) {
   .overview {
     display: none;
   }
