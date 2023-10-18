@@ -124,7 +124,7 @@ const MainPageMovies = ({ selectedGenres, genres }) => {
     //loading initial data from 2010
     if (year === 2010 && !nextMovieList.length) {
       fetchMovies(year, "initialLoad");
-    } else if (year < 2013) {
+    } else if (year < 2012) {
       fetchMovies(year, "nextYear");
     }
   }, [year]);
@@ -201,20 +201,20 @@ const MainPageMovies = ({ selectedGenres, genres }) => {
   return (
     <>
       <div className="mainPage">
-        {(isLoadingGenreMovie || isLoadingMovie) && <div class="loader"></div>}
-        {!isLoadingGenreMovie &&
-          isGenreActive &&
-          dataFetchedByGenre.length > 0 && (
-            //if genre is selected render movie by Genre
-            <Virtuoso
-              style={{ height: "100vh" }}
-              data={dataFetchedByGenre}
-              endReached={loadMoreGenreMovies} // load data of nextPage as infiniteLoading
-              itemContent={(index, movieArray) => {
-                return renderMovieByGenre(movieArray, index);
-              }}
-            />
-          )}
+        {(isLoadingGenreMovie || isLoadingMovie) && (
+          <div className="loader"></div>
+        )}
+        {isGenreActive && dataFetchedByGenre.length > 0 && (
+          //if genre is selected render movie by Genre
+          <Virtuoso
+            style={{ height: "88vh", marginTop: "200px" }}
+            data={dataFetchedByGenre}
+            endReached={loadMoreGenreMovies} // load data of nextPage as infiniteLoading
+            itemContent={(index, movieArray) => {
+              return renderMovieByGenre(movieArray, index);
+            }}
+          />
+        )}
         {!isGenreActive && !isLoadingGenreMovie && (
           //if genre is not_selected rendering movieBy year
           <Virtuoso

@@ -43,7 +43,6 @@ const MovieCard = forwardRef(
       let filter = genres
         .filter((genre) => genre_ids.includes(genre.id))
         .map((genre) => genre.name);
-      console.log("filter:", filter);
       setMovie_Falls_Under_Genre(filter);
     };
 
@@ -68,6 +67,7 @@ const MovieCard = forwardRef(
             castList={castList}
             directorList={directorList}
             setIsModalActive={setIsModalActive}
+            key={id}
           />
         )}
         <div className="movieCard" ref={ref} onClick={handleOnCardClick}>
