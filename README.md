@@ -73,7 +73,7 @@ Requirements Covered ✅ | Not Covered ⚠️ 🚧
 
 ✅ Multiple Genre selection implemented
 
-⚠️ 🚧 Encountered scroll jitter issues while trying to load the previous year's movie list (removed logic )
+⚠️ 🚧 Encountered scroll jitter issues while trying to load the previous year's movie list (logic commented / removed )
 
 
 
