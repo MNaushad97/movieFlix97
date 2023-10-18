@@ -7,8 +7,9 @@ A responsive web application that displays a list of movies from The Movie Datab
 
 **used React + React Virtuoso + CSS**
 
-- React Virtuoso helped in virtualized rendering of large data sets. 
 > [→ visit Virtuoso](https://virtuoso.dev/)
+
+- React Virtuoso helped in virtualized rendering of large data sets. 
 - Implemented smooth scrolling behavior to load more movies as the user scrolls in any direction (from 2010 to currentYear)
   
 ### →  By default, when a user lands on the page, it displays a list of movies of the year 2012
