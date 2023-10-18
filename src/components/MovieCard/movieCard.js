@@ -2,6 +2,7 @@ import { forwardRef, useEffect, useState } from "react";
 import { img_300, unavailable } from "../../Config/config";
 
 import "./movieCard.css";
+import DetailsForModal from "../DetailsForModal/DetailsForModal";
 const MovieCard = forwardRef(
   (
     {
@@ -80,72 +81,15 @@ const MovieCard = forwardRef(
     return (
       <>
         {isModalActive && (
-          <div
-            id="myModal"
-            className="modal"
-            onClick={() => {
-              setIsModalActive(false);
-            }}
-          >
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <div>
-                <div
-                  className="close"
-                  onClick={() => {
-                    setIsModalActive(false);
-                  }}
-                >
-                  &times;
-                </div>
-                <div>
-                  <div className="upperPartOfInfo">
-                    <img
-                      className="poster"
-                      src={
-                        moviePoster ? `${img_300}${moviePoster}` : unavailable
-                      }
-                      alt={title}
-                    />
-                    <div className="castListDiv">
-                      <h3>Cast</h3>
-                      <div className="ActorsName">
-                        {castList?.map((d) => {
-                          return (
-                            <div className="castDetails">
-                              {" "}
-                              <br />• {d?.name}
-                              <br />
-                              <br />
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-
-                  {movieFallUnderGenre && (
-                    <div className="genreOfMovie">
-                      {movieFallUnderGenre?.map((g) => {
-                        return <div className="genreDiv">{g}</div>;
-                      })}
-                    </div>
-                  )}
-                </div>
-                <div>
-                  <h2 className="title">{`${title}`}</h2>{" "}
-                  <div className="description">{overview}</div>
-                  <div className="directors">
-                    <h3>Directors</h3>
-                    <div className="directorsName">
-                      {directorList?.map((d) => {
-                        return <p> {d?.name}</p>;
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <DetailsForModal
+            moviePoster={moviePoster}
+            title={title}
+            overview={overview}
+            movieFallUnderGenre={movieFallUnderGenre}
+            castList={castList}
+            directorList={directorList}
+            setIsModalActive={setIsModalActive}
+          />
         )}
         <div className="movieCard" ref={ref} onClick={handleOnCardClick}>
           <img
@@ -156,11 +100,6 @@ const MovieCard = forwardRef(
           <div className="movie-info">
             <p>{title}</p>
           </div>
-          {/* <div class="overview">
-          <h3>Overview</h3>
-          {overview}
-          <br />
-        </div> */}
           <div className="overview">
             <h3>{title}</h3>
             {expanded ? (
