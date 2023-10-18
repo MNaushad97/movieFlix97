@@ -135,7 +135,7 @@ button:focus {
 
 .modal {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   position: fixed; /* Stay in place */
   z-index: 110; /* Sit on top */
   /* padding-top: 100px; Location of the box */
@@ -152,7 +152,7 @@ button:focus {
 /* Modal Content */
 .modal-content {
   background-color: #242424;
-  margin: auto;
+  margin: 30px;
   padding: 20px;
   border: 1px solid #888;
   width: 80%;

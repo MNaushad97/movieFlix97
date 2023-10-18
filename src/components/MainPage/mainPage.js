@@ -18,9 +18,6 @@ const MainPageMovies = ({ selectedGenres, genres }) => {
   const START_INDEX = 1000; // index number assigned to "first user"
   const INITIAL_ITEM_COUNT = 10;
   const [firstItemIndex, setFirstItemIndex] = useState(START_INDEX);
-
-  //size of array --->total 10 users 0-9 only | 10009 will be "last user"
-
   const [prevYear, setPrevYear] = useState(2010); // Start from 2012
   const [prevMovieList, setPrevMovieList] = useState([]);
   */
@@ -201,33 +198,38 @@ const MainPageMovies = ({ selectedGenres, genres }) => {
     );
   };
   return (
-    <div className="mainPage">
-      {isGenreActive && dataFetchedByGenre.length > 0 && (
-        //if genre is selected render movie by Genre
-        <Virtuoso
-          style={{ height: "100vh" }}
-          data={dataFetchedByGenre}
-          endReached={loadMoreGenreMovies} // load data of nextPage as infiniteLoading
-          itemContent={(index, movieArray) => {
-            return renderMovieByGenre(movieArray, index);
-          }}
-        />
-      )}
-      {!isGenreActive && (
-        //if genre is not_selected rendering movieBy year
-        <Virtuoso
-          style={{ height: "88vh", marginTop: "200px" }}
-          data={nextMovieList}
-          endReached={loadMore}
-          initialTopMostItemIndex={2} //changes initial location to particular index
-          // firstItemIndex={firstItemIndex}//for changing index when prepend
-          //startReached={prependItems} // for prepending list
-          itemContent={(index, movieArray) => {
-            return renderMovieByYearBlock(movieArray, index);
-          }}
-        />
-      )}
-    </div>
+    <>
+      <div className="mainPage">
+        {(isLoadingGenreMovie || isLoadingMovie) && <div class="loader"></div>}
+        {!isLoadingGenreMovie &&
+          isGenreActive &&
+          dataFetchedByGenre.length > 0 && (
+            //if genre is selected render movie by Genre
+            <Virtuoso
+              style={{ height: "100vh" }}
+              data={dataFetchedByGenre}
+              endReached={loadMoreGenreMovies} // load data of nextPage as infiniteLoading
+              itemContent={(index, movieArray) => {
+                return renderMovieByGenre(movieArray, index);
+              }}
+            />
+          )}
+        {!isGenreActive && !isLoadingGenreMovie && (
+          //if genre is not_selected rendering movieBy year
+          <Virtuoso
+            style={{ height: "88vh", marginTop: "200px" }}
+            data={nextMovieList}
+            endReached={loadMore}
+            initialTopMostItemIndex={2} //changes initial location to particular index
+            // firstItemIndex={firstItemIndex}//for changing index when prepend
+            //startReached={prependItems} // for prepending list
+            itemContent={(index, movieArray) => {
+              return renderMovieByYearBlock(movieArray, index);
+            }}
+          />
+        )}
+      </div>
+    </>
   );
 };
 

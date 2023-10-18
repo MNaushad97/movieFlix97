@@ -7,8 +7,6 @@ const Genres = ({
   genres,
   setGenres,
   type,
-  setIsGenreActive,
-  setDataFetchedByGenre,
   // setPage,
 }) => {
   const handleAdd = (genre) => {
