@@ -5,6 +5,7 @@
   margin-top: 14vh;
   width: 100vw;
   height: 100vh;
+  user-select: none;
 }
 @media (max-width: 550px) {
   .mainPage {
