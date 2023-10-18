@@ -73,7 +73,7 @@ const MovieCard = forwardRef(
         <div className="movieCard" ref={ref} onClick={handleOnCardClick}>
           <img
             className="poster"
-            src={moviePoster ? `${img_300}${moviePoster}` : unavailable}
+            src={moviePoster ? `${img_300}${moviePoster}` : `${unavailable}`}
             alt={title}
           />
           <div className="info_at_glance">
