@@ -10,8 +10,8 @@ A responsive web application that displays a list of movies from The Movie Datab
 
 - React Virtuoso helped in virtualized rendering of large data sets. 
 - Implemented smooth scrolling behavior to load more movies as the user scrolls in any direction (from 2010 to currentYear)
-> [→ know more about Virtuoso](https://virtuoso.dev/)
-
+> [→ about Virtuoso](https://virtuoso.dev/)
+> [→ about virtualized rendering](https://betterprogramming.pub/virtualized-rendering-from-scratch-in-react-34c2ad482b16)
   
 ### →  By default, when a user lands on the page, it displays a list of movies of the year 2012
 ### →  Load a total of only 20 movies for each year.
