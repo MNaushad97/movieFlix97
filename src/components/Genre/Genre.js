@@ -40,8 +40,6 @@ const Genres = ({
       }
 
       const data = await response.json();
-
-      // console.log(" genres data:", data?.genres);
       setGenres([...data?.genres]);
     } catch (error) {
       console.error(error);

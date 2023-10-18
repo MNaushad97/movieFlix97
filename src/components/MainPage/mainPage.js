@@ -34,7 +34,6 @@ const MainPageMovies = ({ selectedGenres, genres }) => {
       return;
     }
     //react app needs to be restarted whenever we change something in .env file
-    console.log("type:", type, "movieYear:", movieYear);
     try {
       const response = await fetch(
         `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&sort_by=popularity.desc&primary_release_year=${movieYear}&page=1&vote_count.gte=100`
@@ -45,7 +44,6 @@ const MainPageMovies = ({ selectedGenres, genres }) => {
         );
       }
       const data = await response.json();
-      console.log("data:", data);
 
       if (type === "nextYear") {
         setNextMovieList((prev) => [...prev, data.results]);
@@ -55,7 +53,6 @@ const MainPageMovies = ({ selectedGenres, genres }) => {
         setYear(movieYear + 1);
       } else if (type === "prevYear") {
         // const a = data.results;
-        // console.log("added prev:", movieYear, "-->", a);
         // setPrevYear(movieYear);
         // setPrevYear(data?.results);
       }
@@ -82,12 +79,13 @@ const MainPageMovies = ({ selectedGenres, genres }) => {
         }
 
         const data = await response.json();
-
-        // console.log(type, data);
         if (type === "initialGenreLoad") {
           setDataFetchedByGenre([data?.results]);
           pageRef.current = pageNumber;
-        } else if (type === "loadMoreGenreMovies") {
+        } else if (
+          type === "loadMoreGenreMovies" &&
+          pageNumber <= data?.total_pages
+        ) {
           setDataFetchedByGenre((prev) => [...prev, data?.results]);
           pageRef.current = pageNumber;
         }

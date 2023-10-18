@@ -42,12 +42,12 @@ const DetailsForModal = ({
                     {castList?.length
                       ? castList?.map((d) => {
                           return (
-                            <>
+                            <div key={d?.name}>
                               {" "}
                               <br />• {d?.name}
                               <br />
                               <br />
-                            </>
+                            </div>
                           );
                         })
                       : "Not Available"}
@@ -58,7 +58,11 @@ const DetailsForModal = ({
               {movieFallUnderGenre?.length ? (
                 <div className="genreOfMovie">
                   {movieFallUnderGenre?.map((g) => {
-                    return <div className="genreDiv">{g}</div>;
+                    return (
+                      <div key={g} className="genreDiv">
+                        {g}
+                      </div>
+                    );
                   })}
                 </div>
               ) : (
@@ -73,7 +77,7 @@ const DetailsForModal = ({
                 <div className="directorsName">
                   {directorList?.length ? (
                     directorList?.map((d) => {
-                      return <p> {d?.name}</p>;
+                      return <p key={d?.name}> {d?.name}</p>;
                     })
                   ) : (
                     <div>Not Available</div>
