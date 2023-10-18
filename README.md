@@ -47,7 +47,9 @@ A responsive web application that displays a list of movies from The Movie Datab
 ![mobile_infoCard_close](https://github.com/MNaushad97/movieFlix97/assets/49271386/71e565e6-1890-42f9-9f15-e81762b5c4f3)
 
 
-<img src="disneyWebTailer.gif" width="403" height="223" />
+<img src="https://github.com/MNaushad97/movieFlix97/blob/main/mobile_infoCard_close.gif" width="156" height="239.28" />  </span>
+<img src="https://github.com/MNaushad97/movieFlix97/blob/main/mobile_scroll_genre_demo.gif" width="156" height="239.28" />  </span>
+
 
 
 > Encountered scroll jitter issues when trying to load the previous year's movie list. To ensure a smoother and more responsive user experience had to optimize the code by streamlining certain logic and reducing unnecessary computations related to the movie list retrieval and rendering. 
