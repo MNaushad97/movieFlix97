@@ -39,41 +39,45 @@ const DetailsForModal = ({
                 <div className="castListDiv">
                   <h3>Cast</h3>
                   <div className="ActorsName">
-                    {castList?.map((d) => {
-                      return (
-                        <>
-                          {" "}
-                          <br />• {d?.name}
-                          <br />
-                          <br />
-                        </>
-                      );
-                    })}
+                    {castList?.length
+                      ? castList?.map((d) => {
+                          return (
+                            <>
+                              {" "}
+                              <br />• {d?.name}
+                              <br />
+                              <br />
+                            </>
+                          );
+                        })
+                      : "Not Available"}
                   </div>
                 </div>
               </div>
 
-              {movieFallUnderGenre && (
+              {movieFallUnderGenre?.length ? (
                 <div className="genreOfMovie">
                   {movieFallUnderGenre?.map((g) => {
                     return <div className="genreDiv">{g}</div>;
                   })}
                 </div>
+              ) : (
+                <div>Not Available</div>
               )}
             </div>
             <div className="details_title_overview_directors">
               <h2 className="title">{`${title}`}</h2>{" "}
               <div className="description">{overview}</div>
               <div className="directors">
-                <h3>
-                  {directorList && directorList.length > 1
-                    ? "Directors"
-                    : "Director"}
-                </h3>
+                <h3>{directorList.length > 1 ? "Directors" : "Director"}</h3>
                 <div className="directorsName">
-                  {directorList?.map((d) => {
-                    return <p> {d?.name}</p>;
-                  })}
+                  {directorList?.length ? (
+                    directorList?.map((d) => {
+                      return <p> {d?.name}</p>;
+                    })
+                  ) : (
+                    <div>Not Available</div>
+                  )}
                 </div>
               </div>
             </div>
