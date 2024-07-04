@@ -7,8 +7,6 @@ A responsive web application that displays a list of movies from The Movie Datab
 
 > Please visit for -> [Live Preview in CodeSandbox](https://githubbox.com/MNaushad97/movieFlix97)
 
-
-
 > Or you can scroll to GIFs to get a glance
 
 
