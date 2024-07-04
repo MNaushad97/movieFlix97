@@ -39,7 +39,7 @@ Requirements Covered ✅ :
 - Allows users to filter movies by genre.
 - Multiple Genre selection implemented
 
-⚠️ 🚧 Requirements Not Covered : 
+⚠️ 🚧 Work in Progress : 
 - loading movies of previous year when user scrolls up  (logic commented / removed )
 
 
