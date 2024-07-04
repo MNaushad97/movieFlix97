@@ -17,7 +17,7 @@ A responsive web application that displays a list of movies from The Movie Datab
 
 > [→ about Virtuoso](https://virtuoso.dev/)
 
-> [→ about virtualized rendering](https://betterprogramming.pub/virtualized-rendering-from-scratch-in-react-34c2ad482b16)
+> [→ about virtualized-rendering](https://betterprogramming.pub/virtualized-rendering-from-scratch-in-react-34c2ad482b16)
 
 
 ### How To Run The Project
