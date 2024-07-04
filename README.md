@@ -3,7 +3,7 @@
 # MovieFlix97
 
 
-A responsive web application that displays a list of movies from The Movie Database (TMDb) API. The app shows top movies for each year and users can filter by genre.
+A responsive web application that displays a [`virtualized`](https://betterprogramming.pub/virtualized-rendering-from-scratch-in-react-34c2ad482b16) list of movies from The Movie Database (TMDb) API. The app shows top movies for each year and users can filter by genre.
 
 > Please visit for -> [Live Preview in CodeSandbox](https://githubbox.com/MNaushad97/movieFlix97)
 
