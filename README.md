@@ -16,7 +16,7 @@ A responsive web application that displays a list of movies from The Movie Datab
 - Implemented smooth scrolling behavior to load more movies as the user scrolls in any direction (from 2010 to currentYear)
 
 
-> [→ about virtualized-rendering](https://betterprogramming.pub/virtualized-rendering-from-scratch-in-react-34c2ad482b16)
+> [→ About virtualized-rendering](https://betterprogramming.pub/virtualized-rendering-from-scratch-in-react-34c2ad482b16)
 
 
 ### How To Run The Project
