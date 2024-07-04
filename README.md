@@ -5,7 +5,7 @@
 
 A responsive web application that displays a list of movies from The Movie Database (TMDb) API. The app shows top movies for each year and users can filter by genre.
 
-> Please visit for Live Preview -> [Launch in CodeSandbox](https://githubbox.com/MNaushad97/movieFlix97)
+> Please visit for Live Preview -> <a href="https://githubbox.com/MNaushad97/movieFlix97" target="_blank">Launch in CodeSandbox</a>
 
 > Or you can scroll to GIFs to get a glance
 
