@@ -35,7 +35,7 @@ A responsive web application that displays a list of movies from The Movie Datab
 6. The project will get hosted at url: http: localhost:3000
 
 
-Requirements Covered ✅ :
+Features Covered ✅ :
 - Created custom UI components for the app, using React
 - Displays a list of movies sorted in descending order of popularity.
 - Shows information card for each movieCard.
@@ -46,7 +46,7 @@ Requirements Covered ✅ :
 - Allows users to filter movies by genre.
 - Multiple Genre selection implemented
 
-⚠️ 🚧 Work in Progress : 
+⚠️ 🚧 Feature in Progress : 
 - loading movies of previous year when user scrolls up  (logic commented / removed )
 
 
