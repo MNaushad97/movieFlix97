@@ -7,7 +7,7 @@ A responsive web application that displays a [`virtualized`](https://www.pattern
 
 > Please visit for -> [Live Preview in CodeSandbox](https://githubbox.com/MNaushad97/movieFlix97)
 
-> Or you can scroll to GIFs to get a glance
+> <sup>Or you can scroll to GIFs to get a glance</sup>
 
 **used React + React Virtuoso + CSS**
 
