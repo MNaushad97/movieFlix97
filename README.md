@@ -17,7 +17,6 @@ A responsive web application that displays a [`virtualized`](https://www.pattern
 
 
 <sup>[→ About List virtualization](https://www.patterns.dev/vanilla/virtual-lists)</sup>
-
 <sup>[→ About virtualized-rendering](https://betterprogramming.pub/virtualized-rendering-from-scratch-in-react-34c2ad482b16)</sup>
 
 
