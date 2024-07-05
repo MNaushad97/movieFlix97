@@ -12,7 +12,7 @@ A responsive web application that displays a [`virtualized`](https://www.pattern
 **used React + React Virtuoso + CSS**
 
 
-- React Virtuoso helped in virtualized-rendering of large data sets. 
+- Enhanced rendering performance by implementing virtualized rendering for large data sets. 
 - Implemented smooth scrolling behavior to load more movies as the user scrolls in any direction (from 2010 to currentYear)
 
 
