@@ -15,9 +15,7 @@ A responsive web application that displays a [`virtualized`](https://www.pattern
 - Enhanced rendering performance by implementing virtualized rendering for large data sets. 
 - Implemented smooth scrolling behavior to load more movies as the user scrolls in any direction (from 2010 to currentYear)
 
-<sup>About</sup>
-- <sup>[List virtualization](https://www.patterns.dev/vanilla/virtual-lists)</sup>
-- <sup>[virtualized-rendering](https://betterprogramming.pub/virtualized-rendering-from-scratch-in-react-34c2ad482b16)</sup>
+<sup> </sup><sup>[About List virtualization](https://www.patterns.dev/vanilla/virtual-lists)</sup><sup> </sup><sup>[virtualized-rendering](https://betterprogramming.pub/virtualized-rendering-from-scratch-in-react-34c2ad482b16)</sup>
 
 
 ### How To Run The Project
