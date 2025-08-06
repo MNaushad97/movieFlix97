@@ -5,7 +5,7 @@
 
 A responsive web application that displays a [`virtualized`](https://www.patterns.dev/vanilla/virtual-lists) list of movies from The Movie Database (TMDb) API. The app shows top movies for each year and users can filter by genre.
 
-> Please visit for -> [Live Preview in CodeSandbox](https://githubbox.com/MNaushad97/movieFlix97)
+> Please visit for -> [Live Preview in CodeSandbox](https://nq3lyf.csb.app/)
 
 > <sup>Or you can scroll to GIFs to get a glance</sup>
 
