@@ -5,9 +5,9 @@
 
 A responsive web application that displays a [`virtualized`](https://www.patterns.dev/vanilla/virtual-lists) list of movies from The Movie Database (TMDb) API. The app shows top movies for each year and users can filter by genre.
 
-> Please visit for -> [Live Preview in CodeSandbox](https://nq3lyf.csb.app/)
-
-> <sup>Or you can scroll to GIFs to get a glance</sup>
+> 🚀 **Live Demo**: [movieflix-97.web.app](https://movieflix-97.web.app/)
+> 
+> <sup>Scroll down to GIFs for a quick glance</sup>
 
 **used React + React Virtuoso + CSS**
 
