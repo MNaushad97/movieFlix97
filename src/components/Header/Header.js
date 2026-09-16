@@ -12,7 +12,7 @@ const Header = ({
 }) => {
   return (
     <div className="headerWithGenre">
-      <div className="header">MovieFlix97 </div>
+      <div className="header">MovieFlix-97 </div>
       <div className="genreList">
         <Genres
           type="movie"

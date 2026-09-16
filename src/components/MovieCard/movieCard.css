@@ -60,7 +60,9 @@
 
 .movieCard img {
   width: 100%;
-
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  background-color: #2a2a2a;
   border-radius: 10px;
 }
 

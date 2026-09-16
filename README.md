@@ -45,14 +45,10 @@ Features Covered ✅ :
 - Allows users to filter movies by genre.
 - Multiple Genre selection implemented
 
-⚠️ 🚧 Feature in Progress : 
-- loading movies of previous year when user scrolls up  (logic commented / removed )
-
-
-> Encountered scroll jump issues while trying to load the previous year's movie list. To ensure a smoother and more responsive user experience had to optimize the code by streamlining certain logic and reducing unnecessary computations related to the movie list retrieval and rendering. 
+- Bidirectional infinite scroll: scrolling up loads previous years (2024, 2023, ...) and scrolling down loads future years.
 
   
-### →  By default, when a user lands on the page, it displays a list of movies of the year 2012
+### →  By default, when a user lands on the page, it displays a list of movies of the year 2025
 
 
 <img src="https://github.com/MNaushad97/movieFlix97/blob/main/web_infinite_scroll.gif" width="403" height="223" />

@@ -2,69 +2,47 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import "./mainPage.css";
 import MovieCard from "../MovieCard/movieCard";
 import { Virtuoso } from "react-virtuoso";
-//"Virtuoso" displays large data sets using virtualized rendering.
+
+const INITIAL_YEAR = 2025;
+// Pre-load a small window of years so Virtuoso mounts with real data.
+// This eliminates the "empty → populated" recalculation that causes jitter.
+const PRE_LOAD_BEFORE = 2; // fetch 2023, 2024, 2025 on initial load
+const START_YEAR = INITIAL_YEAR - PRE_LOAD_BEFORE; // 2023
+
+// Start firstItemIndex at 200 so we have room to prepend ~200 years (back to ~1823)
+// The item at array-index 0 will have logical-index INIT_FIRST_INDEX.
+const INIT_FIRST_INDEX = 200;
 
 const MainPageMovies = ({ selectedGenres, genres }) => {
-  const [year, setYear] = useState(2010); // Start from 2010
-  const [nextMovieList, setNextMovieList] = useState([]);
-  const endOfTheYearRef = useRef(null);
+  const [movieList, setMovieList] = useState([]);
+  const [firstItemIndex, setFirstItemIndex] = useState(INIT_FIRST_INDEX);
+
+  const minYearRef = useRef(START_YEAR);
+  const maxYearRef = useRef(INITIAL_YEAR);
 
   const [dataFetchedByGenre, setDataFetchedByGenre] = useState([]);
   const [isGenreActive, setIsGenreActive] = useState(false);
-
-  /*
-  //this is for prepend logic (in progres...)
-
-  const START_INDEX = 1000; // index number assigned to "first user"
-  const INITIAL_ITEM_COUNT = 10;
-  const [firstItemIndex, setFirstItemIndex] = useState(START_INDEX);
-  const [prevYear, setPrevYear] = useState(2010); // Start from 2012
-  const [prevMovieList, setPrevMovieList] = useState([]);
-  */
   const [isLoadingGenreMovie, setIsLoadingGenreMovie] = useState(false);
   const [isLoadingMovie, setIsLoadingMovie] = useState(false);
-  let pageRef = useRef(1); //helps in loading movieList by Genre
+
+  const pageRef = useRef(1);
+  const isFetchingPrevRef = useRef(false);
+  const isFetchingNextRef = useRef(false);
   const currentYear = new Date().getFullYear();
 
-  //fetching moviesList by year
-  const fetchMovies = async (movieYear, type) => {
-    setIsLoadingMovie(true);
-    if (movieYear > currentYear) {
-      setIsLoadingMovie(false);
-      return;
-    }
-    //react app needs to be restarted whenever we change something in .env file
-    try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&sort_by=popularity.desc&primary_release_year=${movieYear}&page=1&vote_count.gte=100`
-      );
-      if (!response.ok) {
-        throw new Error(
-          `Network response was not ok: ${response.status} - ${response.statusText}`
-        );
-      }
-      const data = await response.json();
+  // ─── API helpers ──────────────────────────────────────────────────────────
 
-      if (type === "nextYear") {
-        setNextMovieList((prev) => [...prev, data.results]);
-        setYear(movieYear);
-      } else if (type === "initialLoad") {
-        setNextMovieList([data?.results]);
-        setYear(movieYear + 1);
-      } else if (type === "prevYear") {
-        // const a = data.results;
-        // setPrevYear(movieYear);
-        // setPrevYear(data?.results);
-      }
-    } catch (error) {
-      console.error(error);
-      // Handling the error
-    } finally {
-      setIsLoadingMovie(false);
+  const fetchMoviesForYear = useCallback(async (movieYear) => {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&sort_by=popularity.desc&primary_release_year=${movieYear}&page=1&vote_count.gte=100`
+    );
+    if (!response.ok) {
+      throw new Error(`Network error: ${response.status} - ${response.statusText}`);
     }
-  };
+    const data = await response.json();
+    return data?.results || [];
+  }, []);
 
-  //fetching moviesList by genre
   const fetchMoviesByGenre = useCallback(
     async (listOfGenres, type, pageNumber) => {
       setIsLoadingGenreMovie(true);
@@ -73,25 +51,18 @@ const MainPageMovies = ({ selectedGenres, genres }) => {
           `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${pageNumber}&with_genres=${listOfGenres}`
         );
         if (!response.ok) {
-          throw new Error(
-            `Network response was not ok: ${response.status} - ${response.statusText}`
-          );
+          throw new Error(`Network error: ${response.status} - ${response.statusText}`);
         }
-
         const data = await response.json();
         if (type === "initialGenreLoad") {
           setDataFetchedByGenre([data?.results]);
           pageRef.current = pageNumber;
-        } else if (
-          type === "loadMoreGenreMovies" &&
-          pageNumber <= data?.total_pages
-        ) {
+        } else if (type === "loadMoreGenreMovies" && pageNumber <= data?.total_pages) {
           setDataFetchedByGenre((prev) => [...prev, data?.results]);
           pageRef.current = pageNumber;
         }
       } catch (error) {
         console.error(error);
-        // Handling the error
       } finally {
         setIsLoadingGenreMovie(false);
       }
@@ -99,68 +70,123 @@ const MainPageMovies = ({ selectedGenres, genres }) => {
     []
   );
 
-  //handling here Genre selection,
+  // ─── Effects ──────────────────────────────────────────────────────────────
+
   useEffect(() => {
-    // if no. of genre changed
     if (selectedGenres.length > 0) {
       setDataFetchedByGenre([]);
       setIsGenreActive(true);
       pageRef.current = 1;
-
-      const appendGenreWithComma = selectedGenres.join(",");
-      setTimeout(() => {
-        fetchMoviesByGenre(appendGenreWithComma, "initialGenreLoad", 1);
+      const joinedGenres = selectedGenres.join(",");
+      const timer = setTimeout(() => {
+        fetchMoviesByGenre(joinedGenres, "initialGenreLoad", 1);
       }, 500);
+      return () => clearTimeout(timer);
     } else {
       pageRef.current = 1;
       setIsGenreActive(false);
     }
   }, [fetchMoviesByGenre, selectedGenres]);
 
-  //initialLoad
+  // Initial load: fetch START_YEAR … INITIAL_YEAR in parallel (2023, 2024, 2025).
+  // Virtuoso only mounts once this data is ready, so it never sees an empty→populated
+  // transition — the root cause of the previous jitter.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    //loading initial data from 2010
-    if (year === 2010 && !nextMovieList.length) {
-      fetchMovies(year, "initialLoad");
-    } else if (year < 2012) {
-      fetchMovies(year, "nextYear");
-    }
-  }, [year]);
+    if (movieList.length > 0) return; // StrictMode double-invoke guard
 
-  const loadMore = useCallback(() => {
-    //loads More movie list by year
-    fetchMovies(year + 1, "nextYear");
-  }, [fetchMovies]);
+    let isMounted = true;
+    setIsLoadingMovie(true);
+
+    const yearsToFetch = Array.from(
+      { length: PRE_LOAD_BEFORE + 1 },
+      (_, i) => START_YEAR + i
+    ); // [2023, 2024, 2025]
+
+    Promise.all(yearsToFetch.map((year) => fetchMoviesForYear(year)))
+      .then((results) => {
+        if (!isMounted) return;
+        const initialList = yearsToFetch.map((year, i) => ({
+          year,
+          movies: results[i],
+        }));
+        setMovieList(initialList);
+        minYearRef.current = START_YEAR;
+        maxYearRef.current = INITIAL_YEAR;
+      })
+      .catch((err) => console.error(err))
+      .finally(() => {
+        if (isMounted) setIsLoadingMovie(false);
+      });
+
+    return () => { isMounted = false; };
+  }, [fetchMoviesForYear]);
+
+  // ─── Scroll handlers ──────────────────────────────────────────────────────
+
+  // Scroll UP → prepend previous year
+  const handleStartReached = useCallback(async () => {
+    if (isFetchingPrevRef.current || isGenreActive || minYearRef.current <= 1900) return;
+
+    const prevYear = minYearRef.current - 1;
+    isFetchingPrevRef.current = true;
+    minYearRef.current = prevYear;
+
+    try {
+      const results = await fetchMoviesForYear(prevYear);
+      // React 18 auto-batches these two setState calls into one render
+      setFirstItemIndex((prev) => prev - 1);
+      setMovieList((prev) => [{ year: prevYear, movies: results }, ...prev]);
+    } catch (err) {
+      console.error(err);
+      minYearRef.current = prevYear + 1; // rollback
+    } finally {
+      isFetchingPrevRef.current = false;
+    }
+  }, [isGenreActive, fetchMoviesForYear]);
+
+  // Scroll DOWN → append next year
+  const handleEndReached = useCallback(async () => {
+    if (isFetchingNextRef.current || isGenreActive || maxYearRef.current >= currentYear) return;
+
+    const nextYear = maxYearRef.current + 1;
+    isFetchingNextRef.current = true;
+    maxYearRef.current = nextYear;
+
+    try {
+      const results = await fetchMoviesForYear(nextYear);
+      setMovieList((prev) => [...prev, { year: nextYear, movies: results }]);
+    } catch (err) {
+      console.error(err);
+      maxYearRef.current = nextYear - 1; // rollback
+    } finally {
+      isFetchingNextRef.current = false;
+    }
+  }, [currentYear, isGenreActive, fetchMoviesForYear]);
 
   const loadMoreGenreMovies = useCallback(() => {
-    //loads More movie list by genre
-    const appendGenreWithComma = selectedGenres.join(",");
-    fetchMoviesByGenre(
-      appendGenreWithComma,
-      "loadMoreGenreMovies",
-      pageRef.current + 1
-    );
+    const joinedGenres = selectedGenres.join(",");
+    fetchMoviesByGenre(joinedGenres, "loadMoreGenreMovies", pageRef.current + 1);
   }, [fetchMoviesByGenre, selectedGenres]);
 
-  const renderMovieByYearBlock = (movieArray, index, style) => {
-    // renders movieBlock (year + movieList) for year
+  // ─── Renderers ────────────────────────────────────────────────────────────
+
+  const renderMovieByYearBlock = (item, index) => {
+    const movieArray = item?.movies || [];
+    const displayYear = item?.year;
+
     return (
-      <div className="movieWithYearBlock" key={index}>
-        <span className="yearHeader">
-          {movieArray &&
-            movieArray[0] &&
-            (movieArray?.[0]?.first_air_date?.split("-")[0] ||
-              movieArray?.[0]?.release_date?.split("-")[0])}
-        </span>
+      <div className="movieWithYearBlock" key={displayYear || index}>
+        <span className="yearHeader">{displayYear}</span>
         <div className="movieList">
-          {Array.isArray(movieArray) ? (
-            movieArray?.map((movie) => (
+          {movieArray.length > 0 ? (
+            movieArray.map((movie) => (
               <MovieCard
-                key={movie?.id + movie?.title}
+                key={movie?.id + "_" + movie?.title}
                 id={movie?.id}
                 poster={movie?.poster_path}
                 title={movie?.title || movie?.name}
-                ref={endOfTheYearRef}
+                ref={null}
                 overview={movie?.overview}
                 genres={genres}
                 genre_ids={movie?.genre_ids}
@@ -174,61 +200,66 @@ const MainPageMovies = ({ selectedGenres, genres }) => {
     );
   };
 
-  const renderMovieByGenre = (movieArray, index, style) => {
-    // renders  movieList for genre
-    return (
-      <div className="movieWithYearBlock" key={index}>
-        <div className="movieList">
-          {Array.isArray(movieArray) &&
-            movieArray?.map((movie) => (
-              <MovieCard
-                key={movie?.id + movie?.title}
-                id={movie?.id}
-                poster={movie?.poster_path}
-                title={movie?.title || movie?.name}
-                ref={endOfTheYearRef}
-                overview={movie?.overview}
-                genres={genres} //list of fetched genres {id,name}
-                genre_ids={movie?.genre_ids} //genreId of movie
-              />
-            ))}
-        </div>
+  const renderMovieByGenre = (movieArray, index) => (
+    <div className="movieWithYearBlock" key={index}>
+      <div className="movieList">
+        {Array.isArray(movieArray) &&
+          movieArray.map((movie) => (
+            <MovieCard
+              key={movie?.id + "_" + movie?.title}
+              id={movie?.id}
+              poster={movie?.poster_path}
+              title={movie?.title || movie?.name}
+              ref={null}
+              overview={movie?.overview}
+              genres={genres}
+              genre_ids={movie?.genre_ids}
+            />
+          ))}
       </div>
-    );
-  };
+    </div>
+  );
+
+  // ─── Render ───────────────────────────────────────────────────────────────
+
   return (
     <>
       <div className="mainPage">
-        {isLoadingMovie && nextMovieList.length < 3 && (
-          <div className="loader"></div>
-        )}
-        {isLoadingGenreMovie && dataFetchedByGenre.length < 2 && (
-          <div className="loader"></div>
-        )}
-        {isGenreActive && dataFetchedByGenre.length > 0 && (
-          //if genre is selected render movie by Genre
+        {/* Spinner — only while initial data is loading */}
+        {isLoadingMovie && movieList.length < 1 && <div className="loader"></div>}
+        {isLoadingGenreMovie && dataFetchedByGenre.length < 2 && <div className="loader"></div>}
+
+        {/* Genre Virtuoso — CSS hidden/shown to preserve scroll position on toggle */}
+        <div style={{ display: isGenreActive && dataFetchedByGenre.length > 0 ? "block" : "none" }}>
           <Virtuoso
             style={{ height: "88vh", marginTop: "10vh" }}
             data={dataFetchedByGenre}
-            endReached={loadMoreGenreMovies} // load data of nextPage as infiniteLoading
-            itemContent={(index, movieArray) => {
-              return renderMovieByGenre(movieArray, index);
-            }}
+            endReached={loadMoreGenreMovies}
+            increaseViewportBy={{ top: 0, bottom: 600 }}
+            itemContent={(index, movieArray) => renderMovieByGenre(movieArray, index)}
           />
-        )}
-        {!isGenreActive && !isLoadingGenreMovie && (
-          //if genre is not_selected rendering movieBy year
-          <Virtuoso
-            style={{ height: "88vh", marginTop: "10vh" }}
-            data={nextMovieList}
-            endReached={loadMore}
-            initialTopMostItemIndex={2} //changes initial location to particular index
-            // firstItemIndex={firstItemIndex}//for changing index when prepend
-            //startReached={prependItems} // for prepending list
-            itemContent={(index, movieArray) => {
-              return renderMovieByYearBlock(movieArray, index);
-            }}
-          />
+        </div>
+
+        {/* Year Virtuoso:
+            - Only mounts when pre-load is complete (movieList.length > 0)
+              → Virtuoso never sees an empty→populated transition → NO initial jitter
+            - Uses CSS display for genre toggle after first mount → scroll position preserved
+            - initialTopMostItemIndex scrolls instantly to 2025 (array index PRE_LOAD_BEFORE)
+            - firstItemIndex starts at INIT_FIRST_INDEX (200) for smooth prepend support */}
+        {movieList.length > 0 && (
+          <div style={{ display: !isGenreActive ? "block" : "none" }}>
+            <Virtuoso
+              style={{ height: "88vh", marginTop: "10vh" }}
+              firstItemIndex={firstItemIndex}
+              initialTopMostItemIndex={PRE_LOAD_BEFORE}
+              data={movieList}
+              startReached={handleStartReached}
+              endReached={handleEndReached}
+              followOutput={false}
+              increaseViewportBy={{ top: 0, bottom: 600 }}
+              itemContent={(index, item) => renderMovieByYearBlock(item, index)}
+            />
+          </div>
         )}
       </div>
     </>
